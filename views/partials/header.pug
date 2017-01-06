@@ -2,27 +2,25 @@
   .container
     .navbar-header
       button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
-        span.sr-only Toggle navigation
+        span.sr-only Menú de navegación
         span.icon-bar
         span.icon-bar
         span.icon-bar
       a.navbar-brand(href='/')
         i.fa.fa-cube
-        | Project name
+        | CleanSuit
     .collapse.navbar-collapse
       ul.nav.navbar-nav
-        li(class=(title == 'Home') ? 'active' : undefined)
-          a(href='/') Home
         li(class=(title == 'Contact') ? 'active' : undefined)
-          a(href='/contact') Contact
+          a(href='/contact') Contacto
         li
           a(href='/status') Status
       ul.nav.navbar-nav.navbar-right
         if !user
           li(class=(title == 'Login') ? 'active' : undefined)
-            a(href='/login') Login
+            a(href='/login') Entrar
           li(class=(title == 'Create Account') ? 'active' : undefined)
-            a(href='/signup') Create Account
+            a(href='/signup') Crear Cuenta
         else
           li.dropdown(class=(title == 'Account Management') ? 'active' : undefined)
             a.dropdown-toggle(href='#', data-toggle='dropdown')
@@ -34,7 +32,7 @@
               i.caret
             ul.dropdown-menu
               li
-                a(href='/account') My Account
+                a(href='/account') Mi Cuenta
               li.divider
               li
-                a(href='/logout') Logout
+                a(href='/logout') Salir
