@@ -1,10 +1,16 @@
 const nodemailer = require('nodemailer');
+const xoauth2 = require('xoauth2');
 
 const transporter = nodemailer.createTransport({
-  service: 'SendGrid',
+  service: 'gmail',
   auth: {
-    user: process.env.SENDGRID_USER,
-    pass: process.env.SENDGRID_PASSWORD
+    xoauth2: xoauth2.createXOAuth2Generator({
+      user: process.env.GOOGLE_USER,
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
+      refreshToken: process.env.GOOGLE_RTOKEN,
+      accessToken: process.env.GOOGLE_ATOKEN
+    })
   }
 });
 
