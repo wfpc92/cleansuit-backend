@@ -13,7 +13,6 @@ Features
 - Sass stylesheets (auto-compiled via middleware)
 - Contact Form (powered by Mailgun, Sendgrid or Mandrill)
 - CSRF protection
-
 - **Account Management**
  - Gravatar
  - Profile Details
@@ -104,31 +103,18 @@ List of Packages
 | express-status-monitor          | Reports real-time server metrics for Express.                         |
 | express-validator               | Easy form validation for Express.                                     |
 | fbgraph                         | Facebook Graph API library.                                           |
-| github                          | GitHub API library.                                                   |
 | pug (jade)                      | Template engine for Express.                                          |
-| lastfm                          | Last.fm API library.                                                  |
-| instagram-node                  | Instagram API library.                                                |
-| lob                             | Lob API library                                                       |
 | lusca                           | CSRF middleware.                                                      |
 | mongoose                        | MongoDB ODM.                                                          |
-| node-foursquare                 | Foursquare API library.                                               |
-| node-linkedin                   | LinkedIn API library.                                                 |
-| node-sass-middleware            | Sass middleware compiler.                                                 |
+| node-sass-middleware            | Sass middleware compiler.                                             |
 | nodemailer                      | Node.js library for sending emails.                                   |
+| xoauth2                         | XOAuth2 token generation for accessing GMail SMTP and IMAP            |
 | passport                        | Simple and elegant authentication library for node.js                 |
 | passport-facebook               | Sign-in with Facebook plugin.                                         |
-| passport-github                 | Sign-in with GitHub plugin.                                           |
 | passport-google-oauth           | Sign-in with Google plugin.                                           |
-| passport-twitter                | Sign-in with Twitter plugin.                                          |
-| passport-instagram              | Sign-in with Instagram plugin.                                        |
 | passport-local                  | Sign-in with Username and Password plugin.                            |
-| passport-linkedin-oauth2        | Sign-in with LinkedIn plugin.                                         |
 | paypal-rest-sdk                 | PayPal APIs library.                                                  |
 | request                         | Simplified HTTP request library.                                      |
-| stripe                          | Offical Stripe API library.                                           |
-| tumblr.js                       | Tumblr API library.                                                   |
-| twilio                          | Twilio API library.                                                   |
-| twit                            | Twitter API library.                                                  |
 | lodash                          | Handy JavaScript utlities library.                                    |
 | validator                       | Used in conjunction with express-validator in **controllers/api.js**. |
 | mocha                           | Test framework.                                                       |
@@ -803,9 +789,3 @@ License
 PRIVATE License (PRIVATE)
 
 Copyright (c) 2017 CleanSuit
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
