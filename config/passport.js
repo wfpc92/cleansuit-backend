@@ -1,9 +1,11 @@
 const _ = require('lodash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const JwtStrategy = require('passport-jwt').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
+const JwtExtractor = require('passport-jwt').ExtractJwt;
 const User = require('../models/User');
 
 passport.serializeUser((user, done) => {
@@ -32,6 +34,22 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, don
       }
       return done(null, false, { msg: 'Invalid email or password.' });
     });
+  });
+}));
+
+/**
+ * Sign in using JWT token.
+ */
+passport.use(new JwtStrategy({
+  secretOrKey: process.env.JWT_SECRET,
+  jwtFromRequest: JwtExtractor.fromAuthHeader()
+}, (jwt_payload, done) => {
+  User.findOne({ _id: jwt_payload }, (err, user) => {
+    if (err) { return done(err); }
+    if (!user) {
+      return done(null, false, { msg: `User ${jwt_payload} not found.` });
+    }
+    return done(null, user);
   });
 }));
 
