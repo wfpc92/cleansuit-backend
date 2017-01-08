@@ -1,7 +1,7 @@
 const autoIncrement = require('mongoose-auto-increment');
 const chalk = require('chalk');
 
-module.exports = (mongoose, done) => {
+module.exports = (mongoose, next) => {
     mongoose.Promise = global.Promise;
 
     let dbs = [
@@ -14,7 +14,7 @@ module.exports = (mongoose, done) => {
     mongoose.connection.on('open', () => {
         process.env.MONGODB_URI = dbURI;
         console.log(`%s Conectado a: %s`, chalk.green('✓'), chalk.green(dbURI));
-        return done();
+        return next();
     });
 
     mongoose.connection.on('error', (err) => {

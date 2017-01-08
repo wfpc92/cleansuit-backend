@@ -41,6 +41,11 @@ const contactController = require('./controllers/contact');
 const passportConfig = require('./config/passport');
 
 /**
+ * Role handler.
+ */
+var acl = require('acl');
+
+/**
  * Create Express server.
  */
 const app = express();
@@ -49,6 +54,11 @@ const app = express();
  * Run the app after MongoDB.
  */
 function runapp() {
+    /**
+     * ACL configuration.
+     */
+    acl = new acl(new acl.mongodbBackend(mongoose.connection, { debug: (msg) => console.log('  ACL debug: ', msg) }));
+
     /**
      * Express configuration.
      */
@@ -153,7 +163,45 @@ function runapp() {
     /**
      * Roles setup.
      */
-    const ROLES = ['gerente', 'admin_sede', 'recepcionista', 'procesos', 'domiciliario', 'cliente'];
+    acl.allow([
+        {
+            roles: 'root',
+            allows: [
+                // { resources: '*', permissions: '*' }
+            ]
+        },
+        {
+            roles: 'gerente',
+            allows: []
+        },
+        {
+            roles: 'admin_sede',
+            allows: []
+        },
+        {
+            roles: 'recepcionista',
+            allows: []
+        },
+        {
+            roles: 'procesos',
+            allows: []
+        },
+        {
+            roles: 'domiciliario',
+            allows: []
+        },
+        {
+            roles: 'cliente',
+            allows: []
+        },
+        {
+            roles: 'guest',
+            allows: []
+        }
+    ]);
+    acl.addRoleParents('root', 'gerente');
+    acl.addRoleParents('gerente', 'admin_sede');
+    // acl.addRoleParents('cliente', 'guest');
 
     /**
      * Start Express server.
