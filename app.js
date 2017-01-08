@@ -151,6 +151,11 @@ function runapp() {
     app.use(errorHandler());
 
     /**
+     * Roles setup.
+     */
+    const ROLES = ['gerente', 'admin_sede', 'recepcionista', 'procesos', 'domiciliario', 'cliente'];
+
+    /**
      * Start Express server.
      */
     app.listen(app.get('port'), () => {

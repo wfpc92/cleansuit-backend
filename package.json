@@ -33,6 +33,7 @@
     "lusca": "^1.4.1",
     "mongoose": "^4.7.6",
     "mongoose-auto-increment": "^5.0.1",
+    "mongoose-type-email": "^1.0.2",
     "morgan": "^1.7.0",
     "multer": "^1.2.0",
     "ng-admin": "^1.0.0-beta3",

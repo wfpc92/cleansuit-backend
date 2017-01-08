@@ -96,7 +96,7 @@ angular-ui-bootstrap@~1.2.1:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/angular-ui-bootstrap/-/angular-ui-bootstrap-1.2.5.tgz#b0c1eff0bf3b7a65668984a1b81820a90dc60995"
 
-"angular-ui-codemirror@github:jpetitcolas/ui-codemirror#di":
+angular-ui-codemirror@jpetitcolas/ui-codemirror#di:
   version "0.3.0"
   resolved "https://codeload.github.com/jpetitcolas/ui-codemirror/tar.gz/f1f5385799494d3260a31b12c814a7ab54b91948"
 
@@ -2189,6 +2189,10 @@ mongoose-auto-increment@^5.0.1:
   dependencies:
     extend "^3.0.0"
 
+mongoose-type-email@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/mongoose-type-email/-/mongoose-type-email-1.0.2.tgz#15168c90a222421fd0804ed50a7f016805973932"
+
 mongoose@^4.7.6:
   version "4.7.6"
   resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-4.7.6.tgz#704cc710efb98b74aeb8a3386d073c835498bd46"
@@ -2233,11 +2237,11 @@ mquery@2.0.0:
     regexp-clone "0.0.1"
     sliced "0.0.5"
 
-ms@0.7.1:
+ms@0.7.1, ms@^0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.1.tgz#9cd13c03adbff25b65effde7ce864ee952017098"
 
-ms@0.7.2, ms@^0.7.1:
+ms@0.7.2:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.2.tgz#ae25cf2512b3885a1d95d7f037868d8431124765"
 

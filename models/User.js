@@ -1,10 +1,11 @@
 const bcrypt = require('bcrypt-nodejs');
 const crypto = require('crypto');
 const mongoose = require('mongoose');
+require('mongoose-type-email');
 
 const userSchema = new mongoose.Schema({
-  email: { type: String, unique: true },
-  password: String,
+  email: { type: mongoose.SchemaTypes.Email, unique: true, required: true },
+  password: { type: String, required: true },
   passwordResetToken: String,
   passwordResetExpires: Date,
 
