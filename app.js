@@ -165,7 +165,7 @@ function runapp() {
      */
     acl.allow([
         {
-            roles: 'root',
+            roles: 'superadmin',
             allows: [
                 // { resources: '*', permissions: '*' }
             ]
@@ -183,7 +183,11 @@ function runapp() {
             allows: []
         },
         {
-            roles: 'procesos',
+            roles: 'trabajador',
+            allows: []
+        },
+        {
+            roles: 'recepcionista',
             allows: []
         },
         {

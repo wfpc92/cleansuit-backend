@@ -3,11 +3,15 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 require('mongoose-type-email');
 
+const ROLES = ['superadmin', 'gerente', 'admin_sede', 'trabajador', 'recepcionista', 'domiciliario', 'cliente'];
+
 const userSchema = new mongoose.Schema({
   email: { type: mongoose.SchemaTypes.Email, unique: true, required: true },
   password: { type: String, required: true },
   passwordResetToken: String,
   passwordResetExpires: Date,
+
+  rol: { type: String, enum: ROLES, required: true },
 
   facebook: String,
   google: String,
@@ -25,7 +29,7 @@ const userSchema = new mongoose.Schema({
 /**
  * Password hash middleware.
  */
-userSchema.pre('save', function save(next) {
+userSchema.pre('save', (next) => {
   const user = this;
   if (!user.isModified('password')) { return next(); }
   bcrypt.genSalt(10, (err, salt) => {
@@ -41,7 +45,7 @@ userSchema.pre('save', function save(next) {
 /**
  * Helper method for validating user's password.
  */
-userSchema.methods.comparePassword = function comparePassword(candidatePassword, cb) {
+userSchema.methods.comparePassword = (candidatePassword, cb) => {
   bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
     cb(err, isMatch);
   });
@@ -50,7 +54,7 @@ userSchema.methods.comparePassword = function comparePassword(candidatePassword,
 /**
  * Helper method for getting user's gravatar.
  */
-userSchema.methods.gravatar = function gravatar(size) {
+userSchema.methods.gravatar = (size) => {
   if (!size) {
     size = 200;
   }
