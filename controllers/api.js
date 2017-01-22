@@ -1,17 +1,23 @@
 'use strict';
 
-/**
- * GET /api/upload
- * File Upload API example.
- */
+module.exports = (app) => {
+  return {
 
-exports.getFileUpload = (req, res) => {
-  res.render('api/upload', {
-    title: 'File Upload'
-  });
-};
+    /**
+     * GET /api/upload
+     * File Upload API example.
+     */
 
-exports.postFileUpload = (req, res) => {
-  req.flash('success', { msg: 'File was uploaded successfully.' });
-  res.redirect('/api/upload');
+    getFileUpload: (req, res) => {
+      res.render('api/upload', {
+        title: 'File Upload'
+      });
+    },
+
+    postFileUpload: (req, res) => {
+      req.flash('success', { msg: 'File was uploaded successfully.' });
+      res.redirect('/api/upload');
+    },
+
+  };
 };

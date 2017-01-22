@@ -28,17 +28,9 @@ const upload = multer({ dest: path.join(__dirname, 'uploads') });
 dotenv.load({ path: '.env.variables' });
 
 /**
- * Controllers (route handlers).
- */
-const homeController = require('./controllers/home');
-const userController = require('./controllers/user');
-const apiController = require('./controllers/api');
-const contactController = require('./controllers/contact');
-
-/**
  * API keys and Passport configuration.
  */
-const passportConfig = require('./config/passport');
+const authConfig = require('./config/passport');
 
 /**
  * Role handler.
@@ -58,6 +50,7 @@ function runapp() {
      * ACL configuration.
      */
     acl = new acl(new acl.mongodbBackend(mongoose.connection, { debug: (msg) => console.log('  ACL debug: ', msg) }));
+    app.locals.acl = acl;
 
     /**
      * Express configuration.
@@ -117,31 +110,39 @@ function runapp() {
     app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
     /**
+     * Controllers (route handlers).
+     */
+    const homeCtrl = require('./controllers/home')(app);
+    const userCtrl = require('./controllers/user')(app);
+    const apiCtrl = require('./controllers/api')(app);
+    const contactCtrl = require('./controllers/contact')(app);
+
+    /**
      * Primary app routes.
      */
-    app.get('/', homeController.index);
-    app.get('/login', userController.getLogin);
-    app.post('/login', userController.postLogin);
-    app.get('/logout', userController.logout);
-    app.get('/forgot', userController.getForgot);
-    app.post('/forgot', userController.postForgot);
-    app.get('/reset/:token', userController.getReset);
-    app.post('/reset/:token', userController.postReset);
-    app.get('/signup', userController.getSignup);
-    app.post('/signup', userController.postSignup);
-    app.get('/contact', contactController.getContact);
-    app.post('/contact', contactController.postContact);
-    app.get('/account', passportConfig.isAuthenticated, userController.getAccount);
-    app.post('/account/profile', passportConfig.isAuthenticated, userController.postUpdateProfile);
-    app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
-    app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
-    app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
+    app.get('/', homeCtrl.index);
+    app.get('/login', userCtrl.getLogin);
+    app.post('/login', userCtrl.postLogin);
+    app.get('/logout', userCtrl.logout);
+    app.get('/forgot', userCtrl.getForgot);
+    app.post('/forgot', userCtrl.postForgot);
+    app.get('/reset/:token', userCtrl.getReset);
+    app.post('/reset/:token', userCtrl.postReset);
+    app.get('/signup', userCtrl.getSignup);
+    app.post('/signup', userCtrl.postSignup);
+    app.get('/contact', contactCtrl.getContact);
+    app.post('/contact', contactCtrl.postContact);
+    app.get('/account', authConfig.isAuthenticated, userCtrl.getAccount);
+    app.post('/account/profile', authConfig.isAuthenticated, userCtrl.postUpdateProfile);
+    app.post('/account/password', authConfig.isAuthenticated, userCtrl.postUpdatePassword);
+    app.post('/account/delete', authConfig.isAuthenticated, userCtrl.postDeleteAccount);
+    app.get('/account/unlink/:provider', authConfig.isAuthenticated, userCtrl.getOauthUnlink);
 
     /**
      * API examples routes.
      */
-    app.get('/api/upload', apiController.getFileUpload);
-    app.post('/api/upload', upload.single('myFile'), apiController.postFileUpload);
+    app.get('/api/upload', apiCtrl.getFileUpload);
+    app.post('/api/upload', upload.single('myFile'), apiCtrl.postFileUpload);
 
     /**
      * OAuth authentication routes. (Sign in)
