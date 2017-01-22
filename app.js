@@ -28,19 +28,20 @@ const upload = multer({ dest: path.join(__dirname, 'uploads') });
 dotenv.load({ path: '.env.variables' });
 
 /**
+ * Create Express server.
+ */
+const app = express();
+
+/**
  * API keys and Passport configuration.
  */
 const authConfig = require('./config/passport');
+app.locals.auth = authConfig;
 
 /**
  * Role handler.
  */
 var acl = require('acl');
-
-/**
- * Create Express server.
- */
-const app = express();
 
 /**
  * Run the app after MongoDB.
@@ -112,10 +113,10 @@ function runapp() {
     /**
      * Controllers (route handlers).
      */
+    app.use(require('./controllers')(app))
     const homeCtrl = require('./controllers/home')(app);
     const userCtrl = require('./controllers/user')(app);
     const apiCtrl = require('./controllers/api')(app);
-    const contactCtrl = require('./controllers/contact')(app);
 
     /**
      * Primary app routes.
@@ -130,8 +131,6 @@ function runapp() {
     app.post('/reset/:token', userCtrl.postReset);
     app.get('/signup', userCtrl.getSignup);
     app.post('/signup', userCtrl.postSignup);
-    app.get('/contact', contactCtrl.getContact);
-    app.post('/contact', contactCtrl.postContact);
     app.get('/account', authConfig.isAuthenticated, userCtrl.getAccount);
     app.post('/account/profile', authConfig.isAuthenticated, userCtrl.postUpdateProfile);
     app.post('/account/password', authConfig.isAuthenticated, userCtrl.postUpdatePassword);
