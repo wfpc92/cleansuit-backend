@@ -124,14 +124,12 @@ function runapp() {
    * Controllers (route handlers).
    */
   app.use(require('./controllers')(app))
-  const homeCtrl = require('./controllers/home')(app);
   const userCtrl = require('./controllers/user')(app);
   const apiCtrl = require('./controllers/api')(app);
 
   /**
    * Primary app routes.
    */
-  app.get('/', homeCtrl.index);
   app.get('/login', userCtrl.getLogin);
   app.post('/login', userCtrl.postLogin);
   app.get('/logout', userCtrl.logout);
