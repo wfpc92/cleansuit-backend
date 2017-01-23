@@ -149,26 +149,6 @@ function runapp() {
   app.get('/account/unlink/:provider', authConfig.isAuthenticated, userCtrl.getOauthUnlink);
 
   /**
-   * OAuth authentication routes. (Sign in)
-   */
-  app.get('/auth/facebook', passport.authenticate('facebook', {
-    scope: ['email', 'user_location']
-  }));
-  app.get('/auth/facebook/callback', passport.authenticate('facebook', {
-    failureRedirect: '/login'
-  }), (req, res) => {
-    res.redirect(req.session.returnTo || '/');
-  });
-  app.get('/auth/google', passport.authenticate('google', {
-    scope: 'profile email'
-  }));
-  app.get('/auth/google/callback', passport.authenticate('google', {
-    failureRedirect: '/login'
-  }), (req, res) => {
-    res.redirect(req.session.returnTo || '/');
-  });
-
-  /**
    * Error Handler.
    */
   app.use(errorHandler());
