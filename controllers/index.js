@@ -5,6 +5,7 @@ module.exports = (app) => {
 
   router.use(require('./pages')(app))
   router.use(require('./contact')(app))
+  router.use(require('./api')(app))
 
   return router
 }

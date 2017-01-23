@@ -19,7 +19,6 @@ const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
 const multer = require('multer');
-
 const upload = multer({
   dest: path.join(__dirname, 'uploads')
 });
@@ -32,20 +31,19 @@ dotenv.load({
 });
 
 /**
- * Create Express server.
- */
-const app = express();
-
-/**
  * API keys and Passport configuration.
  */
 const authConfig = require('./config/passport');
-app.locals.auth = authConfig;
 
 /**
  * Role handler.
  */
 var acl = require('acl');
+
+/**
+ * Create Express server.
+ */
+const app = express();
 
 /**
  * Run the app after MongoDB.
@@ -57,7 +55,13 @@ function runapp() {
   acl = new acl(new acl.mongodbBackend(mongoose.connection, {
     debug: (msg) => console.log('  ACL debug: ', msg)
   }));
+
+  /**
+   * Assign app local vars.
+   */
   app.locals.acl = acl;
+  app.locals.auth = authConfig;
+  app.locals.uploader = upload;
 
   /**
    * Express configuration.
@@ -125,7 +129,6 @@ function runapp() {
    */
   app.use(require('./controllers')(app))
   const userCtrl = require('./controllers/user')(app);
-  const apiCtrl = require('./controllers/api')(app);
 
   /**
    * Primary app routes.
@@ -144,12 +147,6 @@ function runapp() {
   app.post('/account/password', authConfig.isAuthenticated, userCtrl.postUpdatePassword);
   app.post('/account/delete', authConfig.isAuthenticated, userCtrl.postDeleteAccount);
   app.get('/account/unlink/:provider', authConfig.isAuthenticated, userCtrl.getOauthUnlink);
-
-  /**
-   * API examples routes.
-   */
-  app.get('/api/upload', apiCtrl.getFileUpload);
-  app.post('/api/upload', upload.single('myFile'), apiCtrl.postFileUpload);
 
   /**
    * OAuth authentication routes. (Sign in)
