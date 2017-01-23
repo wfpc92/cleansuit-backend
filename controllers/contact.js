@@ -1,9 +1,9 @@
 'use strict';
 
 module.exports = (app) => {
-  const router = require('express').Router();
-  const nodemailer = require('nodemailer');
-  const xoauth2 = require('xoauth2');
+  const router = require('express').Router()
+  const nodemailer = require('nodemailer')
+  const xoauth2 = require('xoauth2')
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -16,7 +16,7 @@ module.exports = (app) => {
         accessToken: process.env.GOOGLE_ATOKEN
       })
     }
-  });
+  })
 
   /**
    * GET /contact
@@ -26,7 +26,7 @@ module.exports = (app) => {
     res.render('contact', {
       title: 'Contact'
     });
-  });
+  })
 
   /**
    * POST /contact
@@ -59,7 +59,7 @@ module.exports = (app) => {
       req.flash('success', { msg: 'Email has been sent successfully!' });
       res.redirect('/contact');
     });
-  });
+  })
 
-  return router;
-};
+  return router
+}
