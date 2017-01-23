@@ -127,26 +127,7 @@ function runapp() {
   /**
    * Controllers (route handlers).
    */
-  app.use(require('./controllers')(app))
-  const userCtrl = require('./controllers/user')(app);
-
-  /**
-   * Primary app routes.
-   */
-  app.get('/login', userCtrl.getLogin);
-  app.post('/login', userCtrl.postLogin);
-  app.get('/logout', userCtrl.logout);
-  app.get('/forgot', userCtrl.getForgot);
-  app.post('/forgot', userCtrl.postForgot);
-  app.get('/reset/:token', userCtrl.getReset);
-  app.post('/reset/:token', userCtrl.postReset);
-  app.get('/signup', userCtrl.getSignup);
-  app.post('/signup', userCtrl.postSignup);
-  app.get('/account', authConfig.isAuthenticated, userCtrl.getAccount);
-  app.post('/account/profile', authConfig.isAuthenticated, userCtrl.postUpdateProfile);
-  app.post('/account/password', authConfig.isAuthenticated, userCtrl.postUpdatePassword);
-  app.post('/account/delete', authConfig.isAuthenticated, userCtrl.postDeleteAccount);
-  app.get('/account/unlink/:provider', authConfig.isAuthenticated, userCtrl.getOauthUnlink);
+  app.use(require('./controllers')(app));
 
   /**
    * Error Handler.
