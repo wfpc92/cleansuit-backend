@@ -20,12 +20,16 @@ const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
 const multer = require('multer');
 
-const upload = multer({ dest: path.join(__dirname, 'uploads') });
+const upload = multer({
+  dest: path.join(__dirname, 'uploads')
+});
 
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-dotenv.load({ path: '.env.variables' });
+dotenv.load({
+  path: '.env.variables'
+});
 
 /**
  * Create Express server.
@@ -50,7 +54,9 @@ function runapp() {
   /**
    * ACL configuration.
    */
-  acl = new acl(new acl.mongodbBackend(mongoose.connection, { debug: (msg) => console.log('  ACL debug: ', msg) }));
+  acl = new acl(new acl.mongodbBackend(mongoose.connection, {
+    debug: (msg) => console.log('  ACL debug: ', msg)
+  }));
   app.locals.acl = acl;
 
   /**
@@ -67,7 +73,9 @@ function runapp() {
   }));
   app.use(logger('dev'));
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.urlencoded({
+    extended: true
+  }));
   app.use(expressValidator());
   app.use(session({
     resave: true,
@@ -97,18 +105,20 @@ function runapp() {
   app.use((req, res, next) => {
     // After successful login, redirect back to the intended page
     if (!req.user &&
-        req.path !== '/login' &&
-        req.path !== '/signup' &&
-        !req.path.match(/^\/auth/) &&
-        !req.path.match(/\./)) {
+      req.path !== '/login' &&
+      req.path !== '/signup' &&
+      !req.path.match(/^\/auth/) &&
+      !req.path.match(/\./)) {
       req.session.returnTo = req.path;
     } else if (req.user &&
-        req.path == '/account') {
+      req.path == '/account') {
       req.session.returnTo = req.path;
     }
     next();
   });
-  app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
+  app.use(express.static(path.join(__dirname, 'public'), {
+    maxAge: 31557600000
+  }));
 
   /**
    * Controllers (route handlers).
@@ -146,12 +156,20 @@ function runapp() {
   /**
    * OAuth authentication routes. (Sign in)
    */
-  app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'user_location'] }));
-  app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
+  app.get('/auth/facebook', passport.authenticate('facebook', {
+    scope: ['email', 'user_location']
+  }));
+  app.get('/auth/facebook/callback', passport.authenticate('facebook', {
+    failureRedirect: '/login'
+  }), (req, res) => {
     res.redirect(req.session.returnTo || '/');
   });
-  app.get('/auth/google', passport.authenticate('google', { scope: 'profile email' }));
-  app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
+  app.get('/auth/google', passport.authenticate('google', {
+    scope: 'profile email'
+  }));
+  app.get('/auth/google/callback', passport.authenticate('google', {
+    failureRedirect: '/login'
+  }), (req, res) => {
     res.redirect(req.session.returnTo || '/');
   });
 
@@ -163,11 +181,10 @@ function runapp() {
   /**
    * Roles setup.
    */
-  acl.allow([
-    {
+  acl.allow([{
       roles: 'superadmin',
       allows: [
-          // { resources: '*', permissions: '*' }
+        // { resources: '*', permissions: '*' }
       ]
     },
     {
