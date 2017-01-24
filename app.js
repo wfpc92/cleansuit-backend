@@ -120,9 +120,10 @@ function runapp() {
     }
     next();
   });
-  app.use(express.static(path.join(__dirname, 'public'), {
+  app.use(express.static(path.join(__dirname, 'public')/*, {
     maxAge: 31557600000
-  }));
+  }*/));
+  app.use('/dashboard', express.static(path.join(__dirname, 'node_modules/ng-admin/build')));
 
   /**
    * Controllers (route handlers).
