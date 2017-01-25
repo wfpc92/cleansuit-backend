@@ -10,12 +10,23 @@ module.exports = (app) => {
   const ROLES = ['superadmin', 'gerente', 'admin_sede', 'trabajador', 'recepcionista', 'domiciliario', 'cliente'];
 
   const userSchema = new mongoose.Schema({
-    email: { type: mongoose.SchemaTypes.Email, unique: true, required: true },
-    password: { type: String, required: true },
+    email: {
+      type: mongoose.SchemaTypes.Email,
+      unique: true,
+      required: true
+    },
+    password: {
+      type: String,
+      required: true
+    },
     passwordResetToken: String,
     passwordResetExpires: Date,
 
-    rol: { type: String, enum: ROLES, required: true },
+    rol: {
+      type: String,
+      enum: ROLES,
+      required: true
+    },
 
     facebook: String,
     google: String,
@@ -28,18 +39,26 @@ module.exports = (app) => {
       website: String,
       picture: String
     }
-  }, { timestamps: true });
+  }, {
+    timestamps: true
+  });
 
   /**
    * Password hash middleware.
    */
   userSchema.pre('save', (next) => {
     const user = this;
-    if (!user.isModified('password')) { return next(); }
+    if (!user.isModified('password') && !this.isNew) {
+      return next();
+    }
     bcrypt.genSalt(10, (err, salt) => {
-      if (err) { return next(err); }
+      if (err) {
+        return next(err);
+      }
       bcrypt.hash(user.password, salt, null, (err, hash) => {
-        if (err) { return next(err); }
+        if (err) {
+          return next(err);
+        }
         user.password = hash;
         next();
       });
@@ -69,6 +88,10 @@ module.exports = (app) => {
     return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
   };
 
+  /**
+   * Register the roles and schema.
+   */
+  userSchema.statics.ROLES = ROLES;
   const User = restful.model('User', userSchema);
 
   return User;
