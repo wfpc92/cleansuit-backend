@@ -4,6 +4,7 @@ module.exports = (app) => {
   const bcrypt = require('bcrypt-nodejs');
   const crypto = require('crypto');
   const mongoose = require('mongoose');
+  const restful = require('node-restful');
   require('mongoose-type-email');
 
   const ROLES = ['superadmin', 'gerente', 'admin_sede', 'trabajador', 'recepcionista', 'domiciliario', 'cliente'];
@@ -68,7 +69,7 @@ module.exports = (app) => {
     return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
   };
 
-  const User = mongoose.model('User', userSchema);
+  const User = restful.model('User', userSchema);
 
   return User;
 };

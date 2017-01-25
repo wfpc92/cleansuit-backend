@@ -7,7 +7,7 @@ dashApp.config(['NgAdminConfigurationProvider', function (nga) {
                    .baseApiUrl('http://localhost:3000/rest/');
 
     // create a User entity
-    var user = nga.entity('user');
+    var user = nga.entity('users');
     // set the fields of the user entity list view
     user.listView().fields([
         nga.field('profile.name'),

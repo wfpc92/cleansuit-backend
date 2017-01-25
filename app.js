@@ -5,6 +5,7 @@ const express = require('express');
 const compression = require('compression');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 const logger = require('morgan');
 const chalk = require('chalk');
 const errorHandler = require('errorhandler');
@@ -80,6 +81,7 @@ function runapp() {
   app.use(bodyParser.urlencoded({
     extended: true
   }));
+  app.use(methodOverride());
   app.use(expressValidator());
   app.use(session({
     resave: true,
