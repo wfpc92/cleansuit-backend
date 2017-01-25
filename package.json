@@ -32,7 +32,6 @@
     "express-validator": "^2.21.0",
     "lodash": "^4.17.4",
     "lusca": "^1.4.1",
-    "mers": "^0.14.1",
     "mongoose": "^4.7.8",
     "mongoose-auto-increment": "^5.0.1",
     "mongoose-type-email": "^1.0.2",

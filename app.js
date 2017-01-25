@@ -14,7 +14,6 @@ const MongoStore = require('connect-mongo')(session);
 const flash = require('express-flash');
 const path = require('path');
 const mongoose = require('mongoose');
-const mers = require('mers');
 const passport = require('passport');
 const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
@@ -130,7 +129,6 @@ function runapp() {
    * Load schemas and REST api.
    */
   require('./models')(app)
-  app.use('/rest', mers({ mongoose: mongoose }).rest())
 
   /**
    * Controllers (route handlers).
