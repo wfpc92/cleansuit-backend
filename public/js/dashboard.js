@@ -8,12 +8,27 @@ dashApp.config(['NgAdminConfigurationProvider', function (nga) {
 
     // create a User entity
     var user = nga.entity('users');
-    // set the fields of the user entity list view
-    user.listView().fields([
-        nga.field('profile.name'),
-        nga.field('email'),
-        nga.field('rol'),
+    // User views
+    user.listView()
+    .fields([
+      nga.field('profile.name').label('Nombre').isDetailLink(true),
+      nga.field('email').label('Correo'),
+      nga.field('rol'),
+    ]).filters([
+      nga.field('q')
+        .label('')
+        .pinned(true)
+        .template('<div class="input-group"><input type="text" ng-model="value" placeholder="Buscar" class="form-control"></input><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></div>'),
     ]);
+    user.creationView().fields([
+      nga.field('email').label('Correo'),
+      nga.field('password').label('Contraseña'),
+      nga.field('profile.name').label('Nombre'),
+      nga.field('profile.location').label('Dirección'),
+      nga.field('profile.website').label('Sitio Web'),
+      nga.field('rol'),
+    ])
+    user.editionView().fields(user.creationView().fields());
     // add the user entity to the admin application
     admin.addEntity(user);
 
