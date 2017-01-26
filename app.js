@@ -32,11 +32,6 @@ dotenv.load({
 });
 
 /**
- * API keys and Passport configuration.
- */
-const authConfig = require('./config/passport');
-
-/**
  * Role handler.
  */
 var acl = require('acl');
@@ -61,7 +56,6 @@ function runapp() {
    * Assign app local vars.
    */
   app.locals.acl = acl;
-  app.locals.auth = authConfig;
   app.locals.uploader = upload;
 
   /**
@@ -131,6 +125,11 @@ function runapp() {
    * Load schemas and REST api.
    */
   require('./models')(app)
+
+  /**
+   * API keys and Passport configuration.
+   */
+  app.locals.auth = require('./config/passport');
 
   /**
    * Controllers (route handlers).

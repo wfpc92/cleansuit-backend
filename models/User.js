@@ -10,14 +10,14 @@ module.exports = (app) => {
   const ROLES = ['superadmin', 'gerente', 'admin_sede', 'trabajador', 'recepcionista', 'domiciliario', 'cliente'];
 
   const userSchema = new mongoose.Schema({
-    email: {
+    nombre: String,
+    correo: {
       type: mongoose.SchemaTypes.Email,
       unique: true,
       required: true
     },
-    password: {
-      type: String,
-      required: true
+    contrasena: {
+      type: String
     },
     passwordResetToken: String,
     passwordResetExpires: Date,
@@ -33,11 +33,9 @@ module.exports = (app) => {
     tokens: Array,
 
     profile: {
-      name: String,
-      gender: String,
-      location: String,
-      website: String,
-      picture: String
+      direccion: String,
+      telefono: String,
+      url_foto: String,
     }
   }, {
     timestamps: true
@@ -46,20 +44,20 @@ module.exports = (app) => {
   /**
    * Password hash middleware.
    */
-  userSchema.pre('save', (next) => {
+  userSchema.pre('save', function (next) {
     const user = this;
-    if (!user.isModified('password') && !this.isNew) {
+    if (!user.isModified('contrasena') && !user.isNew) {
       return next();
     }
     bcrypt.genSalt(10, (err, salt) => {
       if (err) {
         return next(err);
       }
-      bcrypt.hash(user.password, salt, null, (err, hash) => {
+      bcrypt.hash(user.contrasena, salt, null, (err, hash) => {
         if (err) {
           return next(err);
         }
-        user.password = hash;
+        user.contrasena = hash;
         next();
       });
     });
@@ -68,8 +66,8 @@ module.exports = (app) => {
   /**
    * Helper method for validating user's password.
    */
-  userSchema.methods.comparePassword = (candidatePassword, cb) => {
-    bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+  userSchema.methods.comparePassword = function (candidatePassword, cb) {
+    bcrypt.compare(candidatePassword, this.contrasena, (err, isMatch) => {
       cb(err, isMatch);
     });
   };
@@ -77,14 +75,14 @@ module.exports = (app) => {
   /**
    * Helper method for getting user's gravatar.
    */
-  userSchema.methods.gravatar = (size) => {
+  userSchema.methods.gravatar = function (size) {
     if (!size) {
       size = 200;
     }
-    if (!this.email) {
+    if (!this.correo) {
       return `https://gravatar.com/avatar/?s=${size}&d=retro`;
     }
-    const md5 = crypto.createHash('md5').update(this.email).digest('hex');
+    const md5 = crypto.createHash('md5').update(this.correo).digest('hex');
     return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
   };
 

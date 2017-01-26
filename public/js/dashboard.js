@@ -55,35 +55,45 @@ dashApp.config(['NgAdminConfigurationProvider', function (nga) {
                    .baseApiUrl('http://localhost:3000/rest/');
 
     // create a User entity
-    var user = nga.entity('users');
+    var user = nga.entity('usuarios')
+                  .identifier(nga.field('_id'));
+
     // User views
     user.listView()
-    .title('Listado de Usuarios')
-    .fields([
-      nga.field('profile.name').label('Nombre').isDetailLink(true),
-      nga.field('email').label('Correo'),
-      nga.field('rol'),
-    ]).filters([
-      nga.field('q')
-        .label('')
-        .pinned(true)
-        .template('<div class="input-group"><input type="text" ng-model="value" placeholder="Buscar" class="form-control"></input><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></div>'),
-    ]);
+      .title('Listado de Usuarios')
+      .fields([
+        nga.field('nombre').isDetailLink(true),
+        nga.field('correo'),
+        nga.field('rol'),
+      ])
+      .filters([
+        nga.field('q')
+          .label('')
+          .pinned(true)
+          .template('<div class="input-group"><input type="text" ng-model="value" placeholder="Buscar" class="form-control"></input><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span></div>'),
+      ]);
 
     user.creationView()
-    .title('Crear un Usuario')
-    .fields([
-      nga.field('email').label('Correo'),
-      nga.field('password').label('Contraseña'),
-      nga.field('profile.name').label('Nombre'),
-      nga.field('profile.location').label('Dirección'),
-      nga.field('profile.website').label('Sitio Web'),
-      nga.field('rol'),
-    ])
+      .title('Crear un Usuario')
+      .fields([
+        nga.field('nombre'),
+        nga.field('correo'),
+        nga.field('contrasena').label('Contraseña'),
+        nga.field('rol'),
+        nga.field('profile.direccion').label('Dirección'),
+        nga.field('profile.telefono').label('Teléfono'),
+      ]);
 
     user.editionView()
-    .title('Editar un Usuario')
-    .fields(user.creationView().fields());
+      .title('Editar un Usuario')
+      .fields([
+        nga.field('nombre'),
+        nga.field('correo'),
+        nga.field('rol'),
+        nga.field('profile.direccion').label('Dirección'),
+        nga.field('profile.telefono').label('Teléfono'),
+      ]);
+
     // add the user entity to the admin application
     admin.addEntity(user);
 

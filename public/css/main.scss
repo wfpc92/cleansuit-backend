@@ -41,8 +41,10 @@ textarea {
 // -------------------------
 
 .navbar-nav img {
-  width: 30px;
-  height: 30px;
+  max-width: 30px;
+  max-height: 30px;
+  width: auto;
+  height: auto;
   margin: -15px 15px -15px;
 }
 
@@ -60,6 +62,20 @@ textarea {
   padding: 0;
   border-radius: 0;
   box-shadow: 0 0 5px #ccc, inset 0 0 0 #000;
+}
+
+.img-ratio {
+  display: block;
+  width: auto;
+  height: auto;
+}
+.profile {
+  max-width: 100px;
+  max-height: 100px;
+}
+.avatar {
+  max-width: 30px;
+  max-height: 30px;
 }
 
 // Font Icons

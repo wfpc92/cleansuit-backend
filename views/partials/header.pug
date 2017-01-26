@@ -24,11 +24,11 @@
         else
           li.dropdown(class=(title == 'Account Management') ? 'active' : undefined)
             a.dropdown-toggle(href='#', data-toggle='dropdown')
-              if user.profile.picture
-                img(src=user.profile.picture)
+              if user.profile.url_foto
+                img(src=user.profile.url_foto)
               else
                 img(src=user.gravatar(60))
-              span= user.profile.name || user.email || user.id
+              span= user.nombre || user.correo || user.id
               i.caret
             ul.dropdown-menu
               li

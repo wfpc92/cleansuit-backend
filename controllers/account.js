@@ -91,8 +91,8 @@ module.exports = (app) => {
     }
 
     const user = new User({
-      email: req.body.email,
-      password: req.body.password
+      correo: req.body.email,
+      contrasena: req.body.password
     });
 
     User.findOne({ email: req.body.email }, (err, existingUser) => {
