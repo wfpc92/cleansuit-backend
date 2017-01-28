@@ -25,7 +25,7 @@ passport.use(new LocalStrategy({
   usernameField: 'correo',
   passwordField: 'contrasena'
 }, (email, password, done) => {
-  User.findOne({ email: email.toLowerCase() }, (err, user) => {
+  User.findOne({ correo: email.toLowerCase() }, (err, user) => {
     if (err) { return done(err); }
     if (!user) {
       return done(null, false, { msg: `Correo ${email} no encontrado.` });
@@ -194,7 +194,7 @@ exports.isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect('/login');
+  res.redirect('/ingresar');
 };
 
 /**

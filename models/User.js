@@ -5,6 +5,7 @@ module.exports = (app) => {
   const crypto = require('crypto');
   const mongoose = require('mongoose');
   const restful = require('node-restful');
+  const jwt = require('jwt-simple');
   require('mongoose-type-email');
 
   const ROLES = ['superadmin', 'gerente', 'admin_sede', 'trabajador', 'recepcionista', 'domiciliario', 'cliente'];
@@ -14,7 +15,6 @@ module.exports = (app) => {
     correo: {
       type: mongoose.SchemaTypes.Email,
       unique: true,
-      required: true
     },
     contrasena: {
       type: String
@@ -44,7 +44,7 @@ module.exports = (app) => {
   /**
    * Password hash middleware.
    */
-  userSchema.pre('save', function (next) {
+  userSchema.pre('save', function(next) {
     const user = this;
     if (!user.isModified('contrasena') && !user.isNew) {
       return next();
@@ -66,7 +66,7 @@ module.exports = (app) => {
   /**
    * Helper method for validating user's password.
    */
-  userSchema.methods.comparePassword = function (candidatePassword, cb) {
+  userSchema.methods.comparePassword = function(candidatePassword, cb) {
     bcrypt.compare(candidatePassword, this.contrasena, (err, isMatch) => {
       cb(err, isMatch);
     });
@@ -75,7 +75,7 @@ module.exports = (app) => {
   /**
    * Helper method for getting user's gravatar.
    */
-  userSchema.methods.gravatar = function (size) {
+  userSchema.methods.gravatar = function(size) {
     if (!size) {
       size = 200;
     }
@@ -84,6 +84,24 @@ module.exports = (app) => {
     }
     const md5 = crypto.createHash('md5').update(this.correo).digest('hex');
     return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
+  };
+
+  /**
+   * Helper to format the login info.
+   */
+  userSchema.methods.getInfo = function() {
+    var token = jwt.encode(this._id, process.env.JWT_SECRET);
+
+    return {
+      nombre: this.nombre,
+      correo: this.correo,
+      rol: this.rol,
+      token: `JWT ${token}`,
+      fb: this.facebook ? true : false,
+      direccion: this.profile.direccion ? this.profile.direccion : '',
+      telefono: this.profile.telefono ? this.profile.telefono : '',
+      url_foto: this.profile.url_foto ? this.profile.url_foto : '',
+    };
   };
 
   /**

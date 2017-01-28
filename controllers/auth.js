@@ -18,7 +18,7 @@ module.exports = (app) => {
   router.get(
     '/auth/facebook/callback',
     passport.authenticate('facebook', {
-      failureRedirect: '/login'
+      failureRedirect: '/ingresar'
     }),
     (req, res) => {
       res.redirect(req.session.returnTo || '/');
@@ -35,7 +35,7 @@ module.exports = (app) => {
   router.get(
     '/auth/google/callback',
     passport.authenticate('google', {
-      failureRedirect: '/login'
+      failureRedirect: '/ingresar'
     }),
     (req, res) => {
       res.redirect(req.session.returnTo || '/');

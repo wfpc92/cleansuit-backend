@@ -105,8 +105,8 @@ function runapp() {
   app.use((req, res, next) => {
     // After successful login, redirect back to the intended page
     if (!req.user &&
-      req.path !== '/login' &&
-      req.path !== '/signup' &&
+      req.path !== '/ingresar' &&
+      req.path !== '/registrar' &&
       !req.path.match(/^\/auth/) &&
       !req.path.match(/\./)) {
       req.session.returnTo = req.path;
@@ -183,7 +183,7 @@ function runapp() {
       allows: []
     }
   ]);
-  acl.addRoleParents('root', 'gerente');
+  acl.addRoleParents('superadmin', 'gerente');
   acl.addRoleParents('gerente', 'admin_sede');
   // acl.addRoleParents('cliente', 'guest');
 

@@ -9,18 +9,18 @@ describe('GET /', () => {
   });
 });
 
-describe('GET /login', () => {
+describe('GET /ingresar', () => {
   it('should return 200 OK', (done) => {
     request(app)
-      .get('/login')
+      .get('/ingresar')
       .expect(200, done);
   });
 });
 
-describe('GET /signup', () => {
+describe('GET /registrar', () => {
   it('should return 200 OK', (done) => {
     request(app)
-      .get('/signup')
+      .get('/registrar')
       .expect(200, done);
   });
 });
@@ -33,10 +33,10 @@ describe('GET /api', () => {
   });
 });
 
-describe('GET /contact', () => {
+describe('GET /contacto', () => {
   it('should return 200 OK', (done) => {
     request(app)
-      .get('/contact')
+      .get('/contacto')
       .expect(200, done);
   });
 });
@@ -44,7 +44,7 @@ describe('GET /contact', () => {
 describe('GET /random-url', () => {
   it('should return 404', (done) => {
     request(app)
-      .get('/reset')
+      .get('/prueba')
       .expect(404, done);
   });
 });
