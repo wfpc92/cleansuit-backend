@@ -30,6 +30,7 @@
     "express-session": "^1.15.0",
     "express-status-monitor": "^0.1.9",
     "express-validator": "^2.21.0",
+    "jwt-simple": "^0.5.1",
     "lodash": "^4.17.4",
     "lusca": "^1.4.1",
     "method-override": "^2.3.7",
