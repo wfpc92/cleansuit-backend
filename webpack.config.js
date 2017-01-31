@@ -2,12 +2,13 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: [
-    './lib/js/dashboard.js',
-    './lib/css/dashboard.scss',
+    './lib/dashboard.js',
+    './public/css/dashboard.scss',
   ],
   output: {
     path: __dirname + "/public/dist",
-    filename: "dashboard.js",
+    publicPath: "/dist/",
+    filename: "[name].js",
   },
   module: {
     loaders: [{
