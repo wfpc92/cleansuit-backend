@@ -6,7 +6,7 @@ const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 const JwtExtractor = require('passport-jwt').ExtractJwt;
-const User = require('mongoose').model('User');
+const User = require('mongoose').model('Usuarios');
 
 passport.serializeUser((user, done) => {
   done(null, user.id);

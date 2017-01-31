@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = (app) => {
-  const User = require('mongoose').model('User');
+  const User = require('mongoose').model('Usuarios');
 
   return {
     regUser: (datos, callback) => {

@@ -46,21 +46,22 @@ module.exports = (app) => {
    */
   userSchema.pre('save', function(next) {
     const user = this;
-    if (!user.isModified('contrasena') && !user.isNew) {
-      return next();
-    }
-    bcrypt.genSalt(10, (err, salt) => {
-      if (err) {
-        return next(err);
-      }
-      bcrypt.hash(user.contrasena, salt, null, (err, hash) => {
+    if (typeof user.contrasena != 'undefined' && (this.isModified('contrasena') || this.isNew)) {
+      bcrypt.genSalt(10, (err, salt) => {
         if (err) {
           return next(err);
         }
-        user.contrasena = hash;
-        next();
+        bcrypt.hash(user.contrasena, salt, null, (err, hash) => {
+          if (err) {
+            return next(err);
+          }
+          user.contrasena = hash;
+          next();
+        });
       });
-    });
+    } else {
+      return next();
+    }
   });
 
   /**
@@ -108,7 +109,7 @@ module.exports = (app) => {
    * Register the roles and schema.
    */
   userSchema.statics.ROLES = ROLES;
-  const User = restful.model('User', userSchema);
+  const User = restful.model('Usuarios', userSchema);
 
   return User;
 };

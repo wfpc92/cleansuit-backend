@@ -6,7 +6,7 @@ module.exports = (app) => {
   const crypto = require('crypto');
   const nodemailer = require('nodemailer');
   const passport = require('passport');
-  const User = require('mongoose').model('User');
+  const User = require('mongoose').model('Usuarios');
 
   /**
    * GET /ingresar
