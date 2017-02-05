@@ -20,6 +20,14 @@ module.exports = (app) => {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Usuarios'
     },
+    domiciliario_recoleccion_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Usuarios'
+    },
+    domiciliario_entrega_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Usuarios'
+    },
     codigo: {
       type: Number
     },
@@ -30,19 +38,14 @@ module.exports = (app) => {
       type: String,
       enum: ESTADOS
     },
+    total: { // total facturado
+      type: Number
+    },
     orden: {},
     items: {},
     recoleccion: {},
     entrega: {},
     cancelacion: {},
-    domiciliario_recoleccion_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Usuarios'
-    },
-    domiciliario_entrega_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Usuarios'
-    },
     servicioDirecto: {
       type: Boolean
     }

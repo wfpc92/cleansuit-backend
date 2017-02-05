@@ -1,0 +1,91 @@
+<div class="row">
+    <div class="col-lg-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-usd fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ stats.ordenes.revenue | number:0 }}</div>
+                        <div>Último Mes</div>
+                    </div>
+                </div>
+            </div>
+            <a ui-sref="list({entity:'ordenes', search:{estado:'finalizada'}})">
+                <div class="panel-footer">
+                    <span class="pull-left">Ver Facturas</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-check fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ stats.ordenes.finalized_orders }}</div>
+                        <div>Ordenes Finalizadas</div>
+                    </div>
+                </div>
+            </div>
+            <a ui-sref="list({entity:'reviews', search:{estado:'finalizada'}})">
+                <div class="panel-footer">
+                    <span class="pull-left">Ver Todas</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-shopping-cart fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ stats.ordenes.pending_orders }}</div>
+                        <div>Ordenes Pendientes</div>
+                    </div>
+                </div>
+            </div>
+            <a ui-sref="list({entity:'ordenes', search:{estado:'nueva'}})">
+                <div class="panel-footer">
+                    <span class="pull-left">Ver Todas</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="panel panel-red">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-user-plus fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">{{ stats.usuarios }}</div>
+                        <div>Nuevos Clientes</div>
+                    </div>
+                </div>
+            </div>
+            <a ui-sref="list({entity:'usuarios'})">
+                <div class="panel-footer">
+                    <span class="pull-left">Ver Todos</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
