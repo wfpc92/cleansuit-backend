@@ -188,6 +188,20 @@ function runapp() {
   // acl.addRoleParents('cliente', 'guest');
 
   /**
+   * Development cors.
+   */
+  if (app.get('env') == 'development') {
+    app.all('*', function(req, res, next) {
+      res.header("Access-Control-Allow-Origin", "*");
+      if ('OPTIONS' == req.method) {
+        res.send(200);
+      } else {
+        next();
+      }
+    })
+  }
+
+  /**
    * Start Express server.
    */
   app.listen(app.get('port'), () => {
