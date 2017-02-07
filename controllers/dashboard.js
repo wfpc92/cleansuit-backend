@@ -7,7 +7,8 @@ module.exports = (app) => {
    * GET /panel
    * User dashboard page.
    */
-  router.get('/panel', (req, res) => {
+  // TODO make authentication required
+  router.get('/', (req, res) => {
     res.render('dashboard/index', {
       title: 'Panel'
     });
