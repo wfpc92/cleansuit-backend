@@ -2,6 +2,7 @@
  * Module dependencies.
  */
 const express = require('express');
+const cors = require('cors');
 const compression = require('compression');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -122,6 +123,13 @@ function runapp() {
   app.use('/ng-admin', express.static(path.join(__dirname, 'node_modules/ng-admin/build')));
 
   /**
+   * Development cors.
+   */
+  if (process.env.NODE_ENV == 'development') {
+    app.use(cors())
+  }
+
+  /**
    * Load schemas and REST api.
    */
   require('./models')(app)
@@ -186,20 +194,6 @@ function runapp() {
   acl.addRoleParents('superadmin', 'gerente');
   acl.addRoleParents('gerente', 'admin_sede');
   // acl.addRoleParents('cliente', 'guest');
-
-  /**
-   * Development cors.
-   */
-  if (app.get('env') == 'development') {
-    app.all('*', function(req, res, next) {
-      res.set('Access-Control-Allow-Origin', '*');
-      if ('OPTIONS' == req.method) {
-        res.send(200);
-      } else {
-        next();
-      }
-    })
-  }
 
   /**
    * Start Express server.
