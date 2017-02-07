@@ -192,7 +192,7 @@ function runapp() {
    */
   if (app.get('env') == 'development') {
     app.all('*', function(req, res, next) {
-      res.header("Access-Control-Allow-Origin", "*");
+      res.set('Access-Control-Allow-Origin', '*');
       if ('OPTIONS' == req.method) {
         res.send(200);
       } else {
