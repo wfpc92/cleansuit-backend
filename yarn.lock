@@ -3714,9 +3714,9 @@ node-pre-gyp@^0.6.29:
     tar "~2.2.1"
     tar-pack "~3.3.0"
 
-"node-restful@git+https://github.com/baugarten/node-restful.git":
-  version "0.2.5"
-  resolved "git+https://github.com/baugarten/node-restful.git#cc0f3d8810605c389fcf1de52ae8adf02e92fe2c"
+node-restful@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/node-restful/-/node-restful-0.2.6.tgz#42ab3adc8c1a5f94ed864799845f8efe311e632e"
   dependencies:
     underscore "1.8.3"
 

@@ -42,7 +42,7 @@
     "morgan": "^1.7.0",
     "multer": "^1.2.1",
     "ng-admin": "^1.0.0",
-    "node-restful": "git+https://github.com/baugarten/node-restful.git",
+    "node-restful": "^0.2.6",
     "node-sass-middleware": "^0.9.8",
     "nodemailer": "^2.7.2",
     "passport": "0.3.2",
