@@ -34,6 +34,9 @@ table.items > tbody > tr > td {
   vertical-align: middle;
 }
 
+.grid {
+  width: auto;
+}
 .grid .ng-admin-column-total_spent,
 .grid .ng-admin-type-amount {
   text-align: right;
@@ -46,4 +49,8 @@ table.items > tbody > tr > td {
 
 .transparent {
   color: transparent;
+}
+
+textarea#desc_corta {
+  height: 80px;
 }

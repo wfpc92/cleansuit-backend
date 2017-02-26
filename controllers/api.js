@@ -4,21 +4,13 @@ module.exports = (app) => {
   const router = require('express').Router()
 
   /**
-   * GET /api/upload
-   * File Upload API example.
+   * POST /upload/:path
+   * Centralized File Upload API.
    */
-
-  router.get('/api/upload', (req, res) => {
-    res.render('api/upload', {
-      title: 'File Upload'
-    });
-  })
-
-  router.post('/api/upload', app.locals.uploader.single('myFile'), (req, res) => {
-    req.flash('success', {
-      msg: 'File was uploaded successfully.'
-    });
-    res.redirect('/api/upload');
+  router.post('/upload/:path', app.locals.uploader.any(), (req, res) => {
+    res.json({
+      'uploaded_url': req.files[0].path.replace('../cleansuit/public', 'http://cleansuit.co')
+    })
   })
 
   return router

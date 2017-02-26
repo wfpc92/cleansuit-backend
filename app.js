@@ -20,9 +20,22 @@ const passport = require('passport');
 const expressValidator = require('express-validator');
 const expressStatusMonitor = require('express-status-monitor');
 const sass = require('node-sass-middleware');
+const shortid = require('shortid');
 const multer = require('multer');
 const upload = multer({
-  dest: path.join(__dirname, 'uploads')
+  storage: multer.diskStorage({
+    destination: function(req, file, callback) {
+      let folder = ''
+      if (['promos', 'productos', 'servicios', 'usuarios'].indexOf(req.params.path) >= 0) {
+        folder = `/${req.params.path}`
+      }
+      callback(null, `../cleansuit/public/images${folder}`);
+    },
+    filename: function(req, file, callback) {
+      let filename = shortid.generate() + path.extname(file.originalname).toLowerCase()
+      callback(null, filename);
+    }
+  })
 });
 
 /**
@@ -91,7 +104,8 @@ function runapp() {
   app.use(passport.session());
   app.use(flash());
   app.use((req, res, next) => {
-    if (req.path === '/api/upload') {
+    console.log(req.route);
+    if (req.path.indexOf('/upload/') === 0) {
       next();
     } else {
       lusca.csrf()(req, res, next);

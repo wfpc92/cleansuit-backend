@@ -53,6 +53,7 @@
     "paypal-rest-sdk": "^1.7.1",
     "pug": "^2.0.0-beta8",
     "request": "^2.79.0",
+    "shortid": "^2.2.6",
     "validator": "^6.2.1",
     "xoauth2": "^1.2.0"
   },
