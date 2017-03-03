@@ -3,6 +3,7 @@
 module.exports = (app) => {
   const Orders = require('./Orders')(app)
   const Products = require('./Products')(app)
+  const ProduMoves = require('./ProduMoves')(app)
   const Promos = require('./Promos')(app)
   const Services = require('./Services')(app)
   const Subservices = require('./Subservices')(app)
@@ -16,6 +17,9 @@ module.exports = (app) => {
 
   Products.methods(['get', 'post', 'put', 'delete'])
   Products.register(app, '/rest/productos')
+
+  ProduMoves.methods(['get', 'post', 'put', 'delete'])
+  ProduMoves.register(app, '/rest/produmoves')
 
   Promos.methods(['get', 'post', 'put', 'delete'])
   Promos.register(app, '/rest/promociones')
