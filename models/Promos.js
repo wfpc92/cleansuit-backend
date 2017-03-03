@@ -5,13 +5,6 @@ module.exports = (app) => {
   const restful = require('node-restful');
 
   const promosSchema = new mongoose.Schema({
-    url_imagen: {
-      type: String,
-      required: true
-    },
-    descuento: {
-      type: Number,
-    },
     codigo: {
       type: String,
       unique: true,
@@ -28,10 +21,15 @@ module.exports = (app) => {
     descripcion: {
       type: String
     },
+    url_imagen: {
+      type: String
+    },
     etiquetaDescuentos: {
       type: String
     },
-    items: {}, // referencias a los productos y subservicios a los se aplica la promocion.
+    // referencias a los productos y subservicios a los se aplica la promocion.
+    productos: [],
+    servicios: [],
   });
 
   promosSchema.methods.vigente = function() {
