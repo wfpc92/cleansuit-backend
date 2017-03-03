@@ -58,10 +58,10 @@
             <legend>Recolección</legend>
 
             <div ng-repeat="field in [
-              formController.fields[2].editable(entry.values.estado == 'nueva'),
-              formController.fields[3].editable(entry.values.estado == 'nueva'),
-              formController.fields[4].editable(entry.values.estado == 'nueva'),
-              formController.fields[12].editable(entry.values.estado == 'nueva')
+              formController.fields[2].editable(['nueva', 'rutaRecoleccion'].indexOf(entry.values.estado) != -1),
+              formController.fields[3].editable(['nueva', 'rutaRecoleccion'].indexOf(entry.values.estado) != -1),
+              formController.fields[4].editable(['nueva', 'rutaRecoleccion'].indexOf(entry.values.estado) != -1),
+              formController.fields[12].editable(['nueva', 'rutaRecoleccion'].indexOf(entry.values.estado) != -1)
             ] track by $index"
             compile="::field.getTemplateValueWithLabel(entry)">
               <!-- 2: Dirección -->
@@ -82,9 +82,9 @@
             <legend>Entrega</legend>
 
             <div ng-repeat="field in [
-              formController.fields[5].editable(entry.values.estado == 'nueva'),
-              formController.fields[6].editable(entry.values.estado == 'nueva'),
-              formController.fields[7].editable(entry.values.estado == 'nueva'),
+              formController.fields[5].editable(['nueva', 'rutaRecoleccion'].indexOf(entry.values.estado) != -1),
+              formController.fields[6].editable(['nueva', 'rutaRecoleccion'].indexOf(entry.values.estado) != -1),
+              formController.fields[7].editable(['nueva', 'rutaRecoleccion'].indexOf(entry.values.estado) != -1),
               formController.fields[13].editable(entry.values.estado == 'procesando')
             ] track by $index"
             compile="::field.getTemplateValueWithLabel(entry)">
@@ -113,7 +113,7 @@
             formController.fields[15]
           ] track by $index"
           compile="::field.getTemplateValueWithLabel(entry)">
-            <!-- 14: Entrega -->
+            <!-- 14: Recoleccion -->
             <!-- 15: Items -->
             <ma-field field="::field" value="entry.values[field.name()]" entry="entry" entity="::entity" form="formController.form" datastore="::formController.dataStore"></ma-field>
           </div>
@@ -126,7 +126,7 @@
 
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <button ng-if="['entregada', 'cancelada'].indexOf(orden.values.estado) == -1" type="submit" class="btn btn-primary"><span class="fa fa-save fa-fw"></span> Guardar Cambios</button>
+        <button ng-if="['entregada', 'cancelada'].indexOf(entry.values.estado) == -1" type="submit" class="btn btn-primary"><span class="fa fa-save fa-fw"></span> Guardar Cambios</button>
         <order-status orden="entry"></order-status>
       </div>
     </div>

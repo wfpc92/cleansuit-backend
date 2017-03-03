@@ -39,7 +39,7 @@ table.items > tbody > tr > td {
 }
 
 basket .grid {
-  width: auto;
+  display: table !important;
 }
 .grid .ng-admin-column-total_spent,
 .grid .ng-admin-type-amount {
