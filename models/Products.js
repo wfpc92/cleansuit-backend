@@ -9,7 +9,8 @@ module.exports = (app) => {
     precio: Number,
     desc_corta: String,
     desc_larga: String,
-    url_imagen: String
+    url_imagen: String,
+    stock: Number,
   });
 
   /**
