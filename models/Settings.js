@@ -20,7 +20,9 @@ module.exports = (app) => {
       type: String,
       required: true,
       default: "Terminos y condiciones no editadas"
-    }
+    },
+    empresa: {},
+    factura: {}
   }, {
     timestamps: true
   });

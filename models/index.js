@@ -7,6 +7,7 @@ module.exports = (app) => {
   const Promos = require('./Promos')(app)
   const Services = require('./Services')(app)
   const Subservices = require('./Subservices')(app)
+  const Settings = require('./Settings')(app)
   const User = require('./User')(app)
 
   /**
@@ -29,6 +30,9 @@ module.exports = (app) => {
 
   Subservices.methods(['get', 'post', 'put', 'delete'])
   Subservices.register(app, '/rest/subservicios')
+
+  Settings.methods(['get', 'put'])
+  Settings.register(app, '/rest/settings')
 
   User.methods(['get', 'post', 'put', 'delete'])
   User.register(app, '/rest/usuarios')
