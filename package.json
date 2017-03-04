@@ -36,7 +36,7 @@
     "lodash": "^4.17.4",
     "lusca": "^1.4.1",
     "method-override": "^2.3.7",
-    "mongoose": "^4.8.1",
+    "mongoose": "^4.8.5",
     "mongoose-auto-increment": "^5.0.1",
     "mongoose-type-email": "^1.0.2",
     "morgan": "^1.7.0",
