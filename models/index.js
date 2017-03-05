@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = (app) => {
+  const Facturas = require('./Invoices')(app)
   const Orders = require('./Orders')(app)
   const Products = require('./Products')(app)
   const ProduMoves = require('./ProduMoves')(app)
@@ -13,6 +14,9 @@ module.exports = (app) => {
   /**
    * RESTful routes.
    */
+  Facturas.methods(['get'])
+  Facturas.register(app, '/rest/facturas')
+
   Orders.methods(['get', 'post', 'put', 'delete'])
   Orders.register(app, '/rest/ordenes')
 

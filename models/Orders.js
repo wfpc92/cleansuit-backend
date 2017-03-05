@@ -5,6 +5,8 @@ module.exports = (app) => {
   const autoIncrement = require('mongoose-auto-increment');
   const restful = require('node-restful');
 
+  const Facturas = mongoose.model('Facturas');
+
   const ESTADOS = [
     'nueva', //0
     'rutaRecoleccion', //1
@@ -88,10 +90,35 @@ module.exports = (app) => {
     ESTADOS[6], //cancelada
   ];
 
+  // update the invoice while it's not delivered
+  ordersSchema.post('findOneAndUpdate', function(order) {
+    if (order.estado == 'rutaEntrega') {
+      // crea la factura
+    }
+  });
+
   /**
    * Register the schema.
    */
   const Orders = restful.model('Ordenes', ordersSchema);
+
+  Orders.route('invoice', {
+    detail: true,
+    handler: function (req, res, next) {
+      // check that it's not already generated or
+      // var invoice = new Facturas({
+      //   orden_id: req.params.id
+      // });
+      // invoice.save();
+      res.download('../cleansuit/public/updates/BJy-fR3Yg.jpg', 'image.jpg', function(err) {
+        if (err) {
+          // Handle error, but keep in mind the response may be partially-sent
+          // so check res.headersSent
+        } else {
+        }
+      })
+    }
+  })
 
   return Orders;
 };
