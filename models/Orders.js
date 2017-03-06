@@ -98,60 +98,59 @@ module.exports = (app) => {
 
   // update the invoice while it's not delivered
   ordersSchema.post('findOneAndUpdate', function(order) {
-    if (order.estado == 'rutaEntrega') {
-      Facturas.findOne({ orden_id: order._id }, function(err, invoice) {
-// console.log(err, invoice)
-        if (err) return;
+    mongoose.model('Ordenes').findOne({ _id: order._id }, function(err, order) {
+      if (order.estado == 'rutaEntrega') {
+        Facturas.findOne({ orden_id: order._id }, function(err, invoice) {
+          // console.log(err, invoice)
+          if (err) return;
 
-        var genInvoice = function(ord, inv) {
-          Settings.findOne({}, {}, { sort: { 'updatedAt' : -1 } }, function(err, config) {
-// console.log( err, config );
-            Usuarios.findOne({ _id: ord.cliente_id }, function(err, cliente) {
-              var params = {
-                // vars
-                order: ord,
-                invoice: inv,
-                cliente: cliente,
-                config: config,
-                // libraries
-                moment: moment,
-                numeral: numeral,
-              }
-              app.render('invoice.html', params, function(err, html) {
-// console.log(err)
-                var options = { format: 'Letter' };
-                pdf.create(html, options).toFile(`public/facturas/${ ord._id }.pdf`, function(err, res) {
-                  if (err) return console.log(err);
-                  // console.log(res); // { filename: '/app/businesscard.pdf' }
-                });
-                // fs.writeFile(`public/facturas/${ ord._id }.html`, html, function(err) {
-                //   if (err) return console.log(err);
-                //   console.log("INVOICE SAVED!");
-                // });
+          var genInvoice = function(ord, inv) {
+            Settings.findOne({}, {}, { sort: { 'updatedAt' : -1 } }, function(err, config) {
+              // console.log( err, config );
+              Usuarios.findOne({ _id: ord.cliente_id }, function(err, cliente) {
+                var params = {
+                  // vars
+                  order: ord,
+                  invoice: inv,
+                  cliente: cliente,
+                  config: config,
+                  // libraries
+                  moment: moment,
+                  numeral: numeral,
+                }
+                app.render('invoice.html', params, function(err, html) {
+                  // console.log(ord)
+                  // console.log(err)
+                  var options = { format: 'Letter' };
+                  pdf.create(html, options).toFile(`public/facturas/${ ord._id }.pdf`, function(err, res) {
+                    if (err) return console.log(err);
+                    // console.log(res); // { filename: '/app/businesscard.pdf' }
+                  });
+                  // fs.writeFile(`public/facturas/${ ord._id }.html`, html, function(err) {
+                  //   if (err) return console.log(err);
+                  //   console.log("INVOICE SAVED!");
+                  // });
+                })
               })
-            })
-          });
-        }
+            });
+          }
 
-        if (!invoice) {
-          invoice = new Facturas({
-            orden_id: order._id,
-            total: order.orden.totales.total
-          });
-          invoice.save();
-          invoice.updatedAt = new Date();
-          genInvoice(order, invoice);
-        } else if (invoice.total != order.orden.totales.total) {
-          invoice.total = order.orden.totales.total;
-          invoice.save();
-          genInvoice(order, invoice);
-        }
-
-        else {
-          genInvoice(order, invoice);
-        }
-      })
-    }
+          if (!invoice) {
+            invoice = new Facturas({
+              orden_id: order._id,
+              total: order.orden.totales.total
+            });
+            invoice.save();
+            invoice.updatedAt = new Date();
+            genInvoice(order, invoice);
+          } else if (invoice.total != order.orden.totales.total) {
+            invoice.total = order.orden.totales.total;
+            invoice.save();
+            genInvoice(order, invoice);
+          }
+        })
+      }
+    })
   });
 
   /**
