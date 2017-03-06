@@ -2,7 +2,6 @@
   <div class="col-lg-12">
     <div class="page-header">
       <ma-view-actions entry="entry" entity="::formController.entity">
-        <order-status orden="entry"></order-status>
         <ma-list-button entity="::entity"></ma-list-button>
         <ma-delete-button entry="entry" entity="::entity"></ma-delete-button>
       </ma-view-actions>
@@ -86,7 +85,7 @@
               formController.fields[5].editable(['nueva', 'rutaRecoleccion'].indexOf(entry.values.estado) != -1),
               formController.fields[6].editable(['nueva', 'rutaRecoleccion'].indexOf(entry.values.estado) != -1),
               formController.fields[7].editable(['nueva', 'rutaRecoleccion'].indexOf(entry.values.estado) != -1),
-              formController.fields[13].editable(entry.values.estado == 'procesando')
+              formController.fields[13].editable(['procesando', 'rutaEntrega'].indexOf(entry.values.estado) != -1)
             ] track by $index"
             compile="::field.getTemplateValueWithLabel(entry)">
               <!-- 5: Dirección -->
@@ -128,6 +127,7 @@
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <button ng-if="['entregada', 'cancelada'].indexOf(entry.values.estado) == -1" type="submit" class="btn btn-primary"><span class="fa fa-save fa-fw"></span> Guardar Cambios</button>
+        <order-status orden="entry" form="::formController.form"></order-status>
       </div>
     </div>
 
