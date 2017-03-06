@@ -1,6 +1,8 @@
 'use strict';
 
 module.exports = (app) => {
+  const User = require('./User')(app)
+  const Settings = require('./Settings')(app)
   const Facturas = require('./Invoices')(app)
   const Orders = require('./Orders')(app)
   const Products = require('./Products')(app)
@@ -8,8 +10,6 @@ module.exports = (app) => {
   const Promos = require('./Promos')(app)
   const Services = require('./Services')(app)
   const Subservices = require('./Subservices')(app)
-  const Settings = require('./Settings')(app)
-  const User = require('./User')(app)
 
   /**
    * RESTful routes.

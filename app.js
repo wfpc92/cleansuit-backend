@@ -78,6 +78,7 @@ function runapp() {
   app.set('port', process.env.PORT || 3000);
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'pug');
+  app.engine('html', require('ejs').renderFile);
   app.use(expressStatusMonitor());
   app.use(compression());
   app.use(sass({

@@ -5,11 +5,11 @@ module.exports = (app) => {
   const restful = require('node-restful');
 
   const invoicesSchema = new mongoose.Schema({
-    filename: String,
     orden_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Ordenes'
     },
+    total: Number,
   }, {
     timestamps: true
   });

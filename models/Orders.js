@@ -1,11 +1,17 @@
 'use strict';
 
 module.exports = (app) => {
+  const fs = require('fs');
+  const pdf = require('html-pdf');
+  const moment = require('moment');
+  const numeral = require('numeral');
   const mongoose = require('mongoose');
   const autoIncrement = require('mongoose-auto-increment');
   const restful = require('node-restful');
 
   const Facturas = mongoose.model('Facturas');
+  const Usuarios = mongoose.model('Usuarios');
+  const Settings = mongoose.model('Configuraciones');
 
   const ESTADOS = [
     'nueva', //0
@@ -93,7 +99,58 @@ module.exports = (app) => {
   // update the invoice while it's not delivered
   ordersSchema.post('findOneAndUpdate', function(order) {
     if (order.estado == 'rutaEntrega') {
-      // crea la factura
+      Facturas.findOne({ orden_id: order._id }, function(err, invoice) {
+// console.log(err, invoice)
+        if (err) return;
+
+        var genInvoice = function(ord, inv) {
+          Settings.findOne({}, {}, { sort: { 'updatedAt' : -1 } }, function(err, config) {
+// console.log( err, config );
+            Usuarios.findOne({ _id: ord.cliente_id }, function(err, cliente) {
+              var params = {
+                // vars
+                order: ord,
+                invoice: inv,
+                cliente: cliente,
+                config: config,
+                // libraries
+                moment: moment,
+                numeral: numeral,
+              }
+              app.render('invoice.html', params, function(err, html) {
+// console.log(err)
+                var options = { format: 'Letter' };
+                pdf.create(html, options).toFile(`public/facturas/${ ord._id }.pdf`, function(err, res) {
+                  if (err) return console.log(err);
+                  // console.log(res); // { filename: '/app/businesscard.pdf' }
+                });
+                // fs.writeFile(`public/facturas/${ ord._id }.html`, html, function(err) {
+                //   if (err) return console.log(err);
+                //   console.log("INVOICE SAVED!");
+                // });
+              })
+            })
+          });
+        }
+
+        if (!invoice) {
+          invoice = new Facturas({
+            orden_id: order._id,
+            total: order.orden.totales.total
+          });
+          invoice.save();
+          invoice.updatedAt = new Date();
+          genInvoice(order, invoice);
+        } else if (invoice.total != order.orden.totales.total) {
+          invoice.total = order.orden.totales.total;
+          invoice.save();
+          genInvoice(order, invoice);
+        }
+
+        else {
+          genInvoice(order, invoice);
+        }
+      })
     }
   });
 
@@ -105,17 +162,14 @@ module.exports = (app) => {
   Orders.route('invoice', {
     detail: true,
     handler: function (req, res, next) {
-      // check that it's not already generated or
-      // var invoice = new Facturas({
-      //   orden_id: req.params.id
-      // });
-      // invoice.save();
-      res.download('../cleansuit/public/updates/BJy-fR3Yg.jpg', 'image.jpg', function(err) {
-        if (err) {
-          // Handle error, but keep in mind the response may be partially-sent
-          // so check res.headersSent
-        } else {
-        }
+      Orders.findOne({ _id: req.params.id }, 'codigo', function(err, order) {
+        res.download(`public/facturas/${ order._id }.pdf`, `Factura_${ order.codigo }.pdf`, function(err) {
+          if (err) {
+            // Handle error, but keep in mind the response may be partially-sent
+            // so check res.headersSent
+          } else {
+          }
+        });
       })
     }
   })
