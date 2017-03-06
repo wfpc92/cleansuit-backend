@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = (app) => {
+  const VersionApp = require('./VersionApp')(app)
   const User = require('./User')(app)
   const Settings = require('./Settings')(app)
   const Facturas = require('./Invoices')(app)

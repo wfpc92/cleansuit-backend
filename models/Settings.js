@@ -5,6 +5,8 @@ module.exports = (app) => {
   const restful = require('node-restful');
   require('mongoose-type-email');
 
+  const VersionApp = mongoose.model('VersionApp')
+
   const configSchema = new mongoose.Schema({
     domicilio: {
       type: Number,
@@ -32,6 +34,39 @@ module.exports = (app) => {
     this.sobreEmpresa = nuevaConfig.sobreEmpresa || this.sobreEmpresa;
     this.terminosCondiciones = nuevaConfig.terminosCondiciones || this.terminosCondiciones;
     return this;
+  };
+
+  configSchema.post('save', function(next) {
+    VersionApp.singleton(function(v) {
+      v.configuraciones += 1;
+    })
+  });
+
+  configSchema.post('findOneAndUpdate', function(next) {
+    VersionApp.singleton(function(v) {
+      v.configuraciones += 1;
+    })
+  });
+
+  configSchema.statics.singleton = function(cb) {
+    var self = this;
+    self.find(function(err, configuracionesLst) {
+      var configuraciones;
+
+      if (configuracionesLst.length !== 0) {
+        configuraciones = configuracionesLst[0];
+        if (cb) {
+          cb(configuraciones);
+        }
+      } else {
+        configuraciones = new self();
+        configuraciones.save(function(err) {
+          if (cb) {
+            cb(configuraciones);
+          }
+        });
+      }
+    });
   };
 
   /**

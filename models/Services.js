@@ -4,6 +4,8 @@ module.exports = (app) => {
   const mongoose = require('mongoose');
   const restful = require('node-restful');
 
+  const VersionApp = mongoose.model('VersionApp')
+
   const servicesSchema = new mongoose.Schema({
     nombre: String,
     descripcion: String,
@@ -11,6 +13,18 @@ module.exports = (app) => {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Subservicios'
     }]
+  });
+
+  servicesSchema.post('save', function(next) {
+    VersionApp.singleton(function(v) {
+      v.inventario += 1;
+    })
+  });
+
+  servicesSchema.post('findOneAndUpdate', function(next) {
+    VersionApp.singleton(function(v) {
+      v.inventario += 1;
+    })
   });
 
   /**
