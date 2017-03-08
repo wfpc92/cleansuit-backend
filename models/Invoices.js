@@ -9,7 +9,25 @@ module.exports = (app) => {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Ordenes'
     },
+    cliente_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Usuarios'
+    },
+    domiciliario_recoleccion_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Usuarios'
+    },
+    domiciliario_entrega_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Usuarios'
+    },
+    servicioDirecto: Boolean,
+    formaPago: String,
+    descuento: Number,
+    domicilio: Number,
+    iva: Number,
     total: Number,
+    // TODO estado
   }, {
     timestamps: true
   });

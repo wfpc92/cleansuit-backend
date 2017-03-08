@@ -138,6 +138,14 @@ module.exports = (app) => {
           if (!invoice) {
             invoice = new Facturas({
               orden_id: order._id,
+              cliente_id: order.cliente_id,
+              domiciliario_recoleccion_id: order.domiciliario_recoleccion_id,
+              domiciliario_entrega_id: order.domiciliario_entrega_id,
+              servicioDirecto: order.orden.servicioDirecto,
+              formaPago: order.orden.formaPago,
+              descuento: order.orden.totales.descuento,
+              domicilio: order.orden.totales.domicilio,
+              iva: order.orden.totales.impuestos,
               total: order.orden.totales.total
             });
             invoice.save();
