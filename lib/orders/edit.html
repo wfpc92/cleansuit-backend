@@ -82,9 +82,9 @@
             <legend>Entrega</legend>
 
             <div ng-repeat="field in [
-              formController.fields[5].editable(['nueva', 'rutaRecoleccion'].indexOf(entry.values.estado) != -1),
-              formController.fields[6].editable(['nueva', 'rutaRecoleccion'].indexOf(entry.values.estado) != -1),
-              formController.fields[7].editable(['nueva', 'rutaRecoleccion'].indexOf(entry.values.estado) != -1),
+              formController.fields[5].editable(['nueva', 'rutaRecoleccion', 'procesando', 'rutaEntrega'].indexOf(entry.values.estado) != -1),
+              formController.fields[6].editable(['nueva', 'rutaRecoleccion', 'procesando', 'rutaEntrega'].indexOf(entry.values.estado) != -1),
+              formController.fields[7].editable(['nueva', 'rutaRecoleccion', 'procesando', 'rutaEntrega'].indexOf(entry.values.estado) != -1),
               formController.fields[13].editable(['procesando', 'rutaEntrega'].indexOf(entry.values.estado) != -1)
             ] track by $index"
             compile="::field.getTemplateValueWithLabel(entry)">
