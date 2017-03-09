@@ -8,13 +8,13 @@
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge">{{ stats.ordenes.revenue | number:0 }}</div>
-                        <div>Último Mes</div>
+                        <div>Facturación de {{ stats.date | date:'MMM' }}</div>
                     </div>
                 </div>
             </div>
-            <a ui-sref="list({entity:'ordenes', search:{estado:'entregada'}})">
+            <a ui-sref="list({entity:'facturas', fecha__gte:stats.date.toISOString()})">
                 <div class="panel-footer">
-                    <span class="pull-left">Ver Facturas</span>
+                    <span class="pull-left">Ver las Facturas</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                     <div class="clearfix"></div>
                 </div>
@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <a ui-sref="list({entity:'reviews', search:{estado:'entregada'}})">
+            <a ui-sref="list({entity:'reviews', estado:'entregada'})">
                 <div class="panel-footer">
                     <span class="pull-left">Ver Todas</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -57,7 +57,7 @@
                     </div>
                 </div>
             </div>
-            <a ui-sref="list({entity:'ordenes', search:{estado:'nueva'}})">
+            <a ui-sref="list({entity:'ordenes', estado:'nueva'})">
                 <div class="panel-footer">
                     <span class="pull-left">Ver Todas</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -79,7 +79,7 @@
                     </div>
                 </div>
             </div>
-            <a ui-sref="list({entity:'usuarios'})">
+            <a ui-sref="list({entity:'usuarios', sortField:'ordenes_ListView.createdAt', sortDir:'DESC'})">
                 <div class="panel-footer">
                     <span class="pull-left">Ver Todos</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

@@ -1,0 +1,23 @@
+
+node_modules/ng-admin/lib/javascripts/ng-admin/Crud/field/maFileField.js
+
+from:
+<small><em>{{ file.name }}</em>
+to:
+<img width="25" src="{{ file.name }}" />
+
+
+node_modules/ng-admin/lib/javascripts/ng-admin/Crud/field/maDateField.js
+
+from:
+return new Date(value);
+to:
+return new Date(new Date(value).getTime() + (new Date().getTimezoneOffset() * 60000));
+
+
+node_modules/ng-admin/lib/javascripts/ng-admin/Crud/field/maField.js
+
+replace:
+sm-10 / sm-2
+with:
+sm-9 / sm-3

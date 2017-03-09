@@ -291,9 +291,9 @@ module.exports = (app) => {
     }
     User
       .findOne({
-        passwordResetToken: req.params.token
+        pass_token: req.params.token
       })
-      .where('passwordResetExpires').gt(Date.now())
+      .where('pass_token_vence').gt(Date.now())
       .exec((err, user) => {
         if (err) {
           return next(err);
@@ -329,9 +329,9 @@ module.exports = (app) => {
       function resetPassword(done) {
         User
           .findOne({
-            passwordResetToken: req.params.token
+            pass_token: req.params.token
           })
-          .where('passwordResetExpires').gt(Date.now())
+          .where('pass_token_vence').gt(Date.now())
           .exec((err, user) => {
             if (err) {
               return next(err);
@@ -343,8 +343,8 @@ module.exports = (app) => {
               return res.redirect('back');
             }
             user.password = req.body.password;
-            user.passwordResetToken = undefined;
-            user.passwordResetExpires = undefined;
+            user.pass_token = undefined;
+            user.pass_token_vence = undefined;
             user.save((err) => {
               if (err) {
                 return next(err);
@@ -434,8 +434,8 @@ module.exports = (app) => {
             });
             return res.redirect('/forgot');
           }
-          user.passwordResetToken = token;
-          user.passwordResetExpires = Date.now() + 3600000; // 1 hour
+          user.pass_token = token;
+          user.pass_token_vence = Date.now() + 3600000; // 1 hour
           user.save((err) => {
             done(err, token, user);
           });

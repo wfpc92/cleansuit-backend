@@ -19,8 +19,8 @@ module.exports = (app) => {
     contrasena: {
       type: String
     },
-    passwordResetToken: String,
-    passwordResetExpires: Date,
+    pass_token: String,
+    pass_token_vence: Date,
 
     rol: {
       type: String,
