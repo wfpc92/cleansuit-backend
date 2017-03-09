@@ -4,7 +4,7 @@
   "description": "CleanSuit Backend",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wfpc92/cleansuit-server.git"
+    "url": "https://github.com/wfpc92/cleansuit-backend.git"
   },
   "author": "CleanSuit",
   "private": true,
@@ -44,7 +44,7 @@
     "mongoose-type-email": "^1.0.2",
     "morgan": "^1.7.0",
     "multer": "^1.2.1",
-    "ng-admin": "^1.0.0",
+    "ng-admin": "^1.0.1",
     "node-restful": "^0.2.6",
     "node-sass-middleware": "^0.9.8",
     "nodemailer": "^2.7.2",
@@ -81,7 +81,6 @@
     "html-webpack-plugin": "^2.22.0",
     "md5": "2.0.0",
     "mocha": "^3.1.2",
-    "moment": "2.10.6",
     "node-sass": "^3.9.3",
     "sass-loader": "2.0.1",
     "sinon": "^1.17.6",
