@@ -1,32 +1,33 @@
 extends ../layout
 
 block content
-  .page-header
-    h3 Iniciar Sesión
-  form.form-horizontal(method='POST')
-    input(type='hidden', name='_csrf', value=_csrf)
-    .form-group
-      label.col-sm-3.control-label(for='correo') Correo
-      .col-sm-7
-        input.form-control(type='email', name='correo', id='correo', placeholder='Correo', autofocus, required)
-    .form-group
-      label.col-sm-3.control-label(for='contrasena') Contraseña
-      .col-sm-7
-        input.form-control(type='password', name='contrasena', id='contrasena', placeholder='Contraseña', required)
-    .form-group
-      .col-sm-offset-3.col-sm-7
-        button.col-sm-3.btn.btn-primary(type='submit')
-          i.fa.fa-user
-          | Entrar
-        a.btn.btn-link(href='/forgot') Olvidaste la contraseña?
-    .form-group
-      .col-sm-offset-3.col-sm-7
-        hr
-    .form-group
-      .col-sm-offset-3.col-sm-7
-        a.btn.btn-block.btn-facebook.btn-social(href='/auth/facebook')
-          i.fa.fa-facebook
-          | Entrar con Facebook
-        a.btn.btn-block.btn-google.btn-social(href='/auth/google')
-          i.fa.fa-google-plus
-          | Entrar con Google
+  .col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-3
+    .page-header
+      h3 Iniciar Sesión
+    form.form-horizontal(method='POST')
+      input(type='hidden', name='_csrf', value=_csrf)
+      .form-group
+        label.col-sm-3.control-label(for='correo') Correo
+        .col-sm-7
+          input.form-control(type='email', name='correo', id='correo', placeholder='Correo', autofocus, required)
+      .form-group
+        label.col-sm-3.control-label(for='contrasena') Contraseña
+        .col-sm-7
+          input.form-control(type='password', name='contrasena', id='contrasena', placeholder='Contraseña', required)
+      .form-group
+        .col-sm-offset-3.col-sm-7
+          button.col-xs-4.col-sm-7.col-lg-4.btn.btn-default(type='submit')
+            i.fa.fa-user
+            | Entrar
+          a.btn.btn-link(href='/forgot') Olvidaste la contraseña?
+      .form-group
+        .col-sm-offset-3.col-sm-7
+          hr
+      .form-group
+        .col-sm-offset-3.col-sm-7
+          a.btn.btn-block.btn-facebook.btn-social(href='/auth/facebook')
+            i.fa.fa-facebook
+            | Entrar con Facebook
+          a.btn.btn-block.btn-google.btn-social(href='/auth/google')
+            i.fa.fa-google-plus
+            | Entrar con Google

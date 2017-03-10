@@ -8,14 +8,16 @@
     <img src="/img/logo.png" alt="{{ title }}">
   </a>
 </div>
-<ul class="nav navbar-top-links navbar-right hidden-xs">
+<p class="navbar-text navbar-right hidden-xs" ng-controller="username">
+  <i class="fa fa-user fa-lg"></i>&nbsp;&nbsp;{{ user.nombre }} &nbsp; <a href="/salir" class="btn btn-default navbar-btn">Salir</a>
+</p>
+<!-- <ul class="nav navbar-top-links navbar-right hidden-xs">
   <li uib-dropdown>
-    <a uib-dropdown-toggle href="#" aria-expanded="true">
-      <i class="fa fa-user fa-lg"></i>&nbsp;Usuario&nbsp;<i class="fa fa-caret-down"></i>
+    <a uib-dropdown-toggle href="#" aria-expanded="true" ng-controller="username">
+      <i class="fa fa-user fa-lg"></i>&nbsp;{{ user.nombre }}&nbsp;<i class="fa fa-caret-down"></i>
     </a>
     <ul class="dropdown-menu dropdown-user" role="menu">
-      <!-- <li><a href="/cuenta"><i class="fa fa-user fa-lg"></i>&nbsp;Cuenta</a></li> -->
-      <li><a href="#" onclick="logout()"><i class="fa fa-sign-out fa-fw"></i>&nbsp;Salir</a></li>
+      <li><a href="/salir"><i class="fa fa-sign-out fa-fw"></i>&nbsp;Salir</a></li>
     </ul>
   </li>
-</ul>
+</ul> -->

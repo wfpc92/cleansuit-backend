@@ -9,6 +9,18 @@ module.exports = (app) => {
   const User = require('mongoose').model('Usuarios');
 
   /**
+   * GET /session
+   * User session info.
+   */
+  router.get('/session', app.locals.auth.isAuthenticated, (req, res) => {
+    res.json({
+      nombre: req.user.nombre,
+      correo: req.user.correo,
+      rol: req.user.rol,
+    })
+  })
+
+  /**
    * GET /ingresar
    * Login page.
    */
@@ -67,7 +79,7 @@ module.exports = (app) => {
         req.flash('success', {
           msg: 'Has iniciado sesión exitosamente!'
         });
-        res.redirect(req.session.returnTo || '/');
+        res.redirect('/');
       });
     })(req, res, next);
   })
@@ -85,201 +97,201 @@ module.exports = (app) => {
    * GET /registrar
    * Signup page.
    */
-  router.get('/registrar', (req, res) => {
-    if (req.user) {
-      return res.redirect('/');
-    }
-    res.render('account/signup', {
-      title: 'Registrarse'
-    });
-  })
+  // router.get('/registrar', (req, res) => {
+  //   if (req.user) {
+  //     return res.redirect('/');
+  //   }
+  //   res.render('account/signup', {
+  //     title: 'Registrarse'
+  //   });
+  // })
 
   /**
    * POST /registrar
    * Create a new local account.
    */
-  router.post('/registrar', (req, res, next) => {
-    req.assert('correo', 'Correo electrónico no válido').isEmail();
-    req.assert('contrasena', 'La contraseña debe ser de por lo menos 4 caracteres').len(4);
-    if (req.body.confirmarContrasena)
-      req.assert('confirmarContrasena', 'Las contraseñas no coinciden').equals(req.body.contrasena);
-    req.sanitize('correo').normalizeEmail({
-      remove_dots: false
-    });
-
-    const errors = req.validationErrors();
-
-    if (errors) {
-      req.flash('errors', errors);
-
-      return res.format({
-        json: () => res.json({
-          success: false,
-          mensaje: 'Por favor ingrese nombre, correo y contraseña.'
-        }),
-        default: () => res.redirect('/registrar')
-      });
-    }
-
-    const user = new User({
-      correo: req.body.correo,
-      contrasena: req.body.contrasena
-    });
-
-    User.findOne({
-      correo: req.body.correo
-    }, (err, existingUser) => {
-      if (err) {
-        return next(err);
-      }
-      if (existingUser) {
-        req.flash('errors', {
-          msg: 'Ya existe una cuenta con ese correo electrónico.'
-        });
-        return res.redirect('/registrar');
-      }
-      user.save((err) => {
-        if (err) {
-          return next(err);
-        }
-        req.logIn(user, (err) => {
-          if (err) {
-            return next(err);
-          }
-          res.redirect('/');
-        });
-      });
-    });
-  })
+  // router.post('/registrar', (req, res, next) => {
+  //   req.assert('correo', 'Correo electrónico no válido').isEmail();
+  //   req.assert('contrasena', 'La contraseña debe ser de por lo menos 4 caracteres').len(4);
+  //   if (req.body.confirmarContrasena)
+  //     req.assert('confirmarContrasena', 'Las contraseñas no coinciden').equals(req.body.contrasena);
+  //   req.sanitize('correo').normalizeEmail({
+  //     remove_dots: false
+  //   });
+  //
+  //   const errors = req.validationErrors();
+  //
+  //   if (errors) {
+  //     req.flash('errors', errors);
+  //
+  //     return res.format({
+  //       json: () => res.json({
+  //         success: false,
+  //         mensaje: 'Por favor ingrese nombre, correo y contraseña.'
+  //       }),
+  //       default: () => res.redirect('/registrar')
+  //     });
+  //   }
+  //
+  //   const user = new User({
+  //     correo: req.body.correo,
+  //     contrasena: req.body.contrasena
+  //   });
+  //
+  //   User.findOne({
+  //     correo: req.body.correo
+  //   }, (err, existingUser) => {
+  //     if (err) {
+  //       return next(err);
+  //     }
+  //     if (existingUser) {
+  //       req.flash('errors', {
+  //         msg: 'Ya existe una cuenta con ese correo electrónico.'
+  //       });
+  //       return res.redirect('/registrar');
+  //     }
+  //     user.save((err) => {
+  //       if (err) {
+  //         return next(err);
+  //       }
+  //       req.logIn(user, (err) => {
+  //         if (err) {
+  //           return next(err);
+  //         }
+  //         res.redirect('/');
+  //       });
+  //     });
+  //   });
+  // })
 
   /**
    * GET /account
    * Profile page.
    */
-  router.get('/account', app.locals.auth.isAuthenticated, (req, res) => {
-    res.render('account/profile', {
-      title: 'Account Management'
-    });
-  })
+  // router.get('/account', app.locals.auth.isAuthenticated, (req, res) => {
+  //   res.render('account/profile', {
+  //     title: 'Account Management'
+  //   });
+  // })
 
   /**
    * POST /account/profile
    * Update profile information.
    */
-  router.post('/account/profile', app.locals.auth.isAuthenticated, (req, res, next) => {
-    req.assert('email', 'Please enter a valid email address.').isEmail();
-    req.sanitize('email').normalizeEmail({
-      remove_dots: false
-    });
-
-    const errors = req.validationErrors();
-
-    if (errors) {
-      req.flash('errors', errors);
-      return res.redirect('/account');
-    }
-
-    User.findById(req.user.id, (err, user) => {
-      if (err) {
-        return next(err);
-      }
-      user.email = req.body.email || '';
-      user.profile.name = req.body.name || '';
-      user.profile.gender = req.body.gender || '';
-      user.profile.location = req.body.location || '';
-      user.profile.website = req.body.website || '';
-      user.save((err) => {
-        if (err) {
-          if (err.code === 11000) {
-            req.flash('errors', {
-              msg: 'The email address you have entered is already associated with an account.'
-            });
-            return res.redirect('/account');
-          }
-          return next(err);
-        }
-        req.flash('success', {
-          msg: 'Profile information has been updated.'
-        });
-        res.redirect('/account');
-      });
-    });
-  })
+  // router.post('/account/profile', app.locals.auth.isAuthenticated, (req, res, next) => {
+  //   req.assert('email', 'Please enter a valid email address.').isEmail();
+  //   req.sanitize('email').normalizeEmail({
+  //     remove_dots: false
+  //   });
+  //
+  //   const errors = req.validationErrors();
+  //
+  //   if (errors) {
+  //     req.flash('errors', errors);
+  //     return res.redirect('/account');
+  //   }
+  //
+  //   User.findById(req.user.id, (err, user) => {
+  //     if (err) {
+  //       return next(err);
+  //     }
+  //     user.email = req.body.email || '';
+  //     user.profile.name = req.body.name || '';
+  //     user.profile.gender = req.body.gender || '';
+  //     user.profile.location = req.body.location || '';
+  //     user.profile.website = req.body.website || '';
+  //     user.save((err) => {
+  //       if (err) {
+  //         if (err.code === 11000) {
+  //           req.flash('errors', {
+  //             msg: 'The email address you have entered is already associated with an account.'
+  //           });
+  //           return res.redirect('/account');
+  //         }
+  //         return next(err);
+  //       }
+  //       req.flash('success', {
+  //         msg: 'Profile information has been updated.'
+  //       });
+  //       res.redirect('/account');
+  //     });
+  //   });
+  // })
 
   /**
    * POST /account/password
    * Update current password.
    */
-  router.post('/account/password', app.locals.auth.isAuthenticated, (req, res, next) => {
-    req.assert('password', 'Password must be at least 4 characters long').len(4);
-    req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
-
-    const errors = req.validationErrors();
-
-    if (errors) {
-      req.flash('errors', errors);
-      return res.redirect('/account');
-    }
-
-    User.findById(req.user.id, (err, user) => {
-      if (err) {
-        return next(err);
-      }
-      user.password = req.body.password;
-      user.save((err) => {
-        if (err) {
-          return next(err);
-        }
-        req.flash('success', {
-          msg: 'Password has been changed.'
-        });
-        res.redirect('/account');
-      });
-    });
-  })
+  // router.post('/account/password', app.locals.auth.isAuthenticated, (req, res, next) => {
+  //   req.assert('password', 'Password must be at least 4 characters long').len(4);
+  //   req.assert('confirmPassword', 'Passwords do not match').equals(req.body.password);
+  //
+  //   const errors = req.validationErrors();
+  //
+  //   if (errors) {
+  //     req.flash('errors', errors);
+  //     return res.redirect('/account');
+  //   }
+  //
+  //   User.findById(req.user.id, (err, user) => {
+  //     if (err) {
+  //       return next(err);
+  //     }
+  //     user.password = req.body.password;
+  //     user.save((err) => {
+  //       if (err) {
+  //         return next(err);
+  //       }
+  //       req.flash('success', {
+  //         msg: 'Password has been changed.'
+  //       });
+  //       res.redirect('/account');
+  //     });
+  //   });
+  // })
 
   /**
    * POST /account/delete
    * Delete user account.
    */
-  router.post('/account/delete', app.locals.auth.isAuthenticated, (req, res, next) => {
-    User.remove({
-      _id: req.user.id
-    }, (err) => {
-      if (err) {
-        return next(err);
-      }
-      req.logout();
-      req.flash('info', {
-        msg: 'Your account has been deleted.'
-      });
-      res.redirect('/');
-    });
-  })
+  // router.post('/account/delete', app.locals.auth.isAuthenticated, (req, res, next) => {
+  //   User.remove({
+  //     _id: req.user.id
+  //   }, (err) => {
+  //     if (err) {
+  //       return next(err);
+  //     }
+  //     req.logout();
+  //     req.flash('info', {
+  //       msg: 'Your account has been deleted.'
+  //     });
+  //     res.redirect('/');
+  //   });
+  // })
 
   /**
    * GET /account/unlink/:provider
    * Unlink OAuth provider.
    */
-  router.get('/account/unlink/:provider', app.locals.auth.isAuthenticated, (req, res, next) => {
-    const provider = req.params.provider;
-    User.findById(req.user.id, (err, user) => {
-      if (err) {
-        return next(err);
-      }
-      user[provider] = undefined;
-      user.tokens = user.tokens.filter(token => token.kind !== provider);
-      user.save((err) => {
-        if (err) {
-          return next(err);
-        }
-        req.flash('info', {
-          msg: `${provider} account has been unlinked.`
-        });
-        res.redirect('/account');
-      });
-    });
-  })
+  // router.get('/account/unlink/:provider', app.locals.auth.isAuthenticated, (req, res, next) => {
+  //   const provider = req.params.provider;
+  //   User.findById(req.user.id, (err, user) => {
+  //     if (err) {
+  //       return next(err);
+  //     }
+  //     user[provider] = undefined;
+  //     user.tokens = user.tokens.filter(token => token.kind !== provider);
+  //     user.save((err) => {
+  //       if (err) {
+  //         return next(err);
+  //       }
+  //       req.flash('info', {
+  //         msg: `${provider} account has been unlinked.`
+  //       });
+  //       res.redirect('/account');
+  //     });
+  //   });
+  // })
 
   /**
    * GET /reset/:token
@@ -300,12 +312,12 @@ module.exports = (app) => {
         }
         if (!user) {
           req.flash('errors', {
-            msg: 'Password reset token is invalid or has expired.'
+            msg: 'La solicitud de restablecimiento no es válida o ha expirado.'
           });
           return res.redirect('/forgot');
         }
         res.render('account/reset', {
-          title: 'Password Reset'
+          title: 'Restablecimiento de Contraseña'
         });
       });
   })
@@ -315,8 +327,8 @@ module.exports = (app) => {
    * Process the reset password request.
    */
   router.post('/reset/:token', (req, res, next) => {
-    req.assert('password', 'Password must be at least 4 characters long.').len(4);
-    req.assert('confirm', 'Passwords must match.').equals(req.body.password);
+    req.assert('password', 'La contraseña debe tener mínimo 6 caracteres.').len(6);
+    req.assert('confirm', 'Las contraseñas deben coincidir.').equals(req.body.password);
 
     const errors = req.validationErrors();
 
@@ -338,7 +350,7 @@ module.exports = (app) => {
             }
             if (!user) {
               req.flash('errors', {
-                msg: 'Password reset token is invalid or has expired.'
+                msg: 'La solicitud de restablecimiento no es válida o ha expirado.'
               });
               return res.redirect('back');
             }
@@ -365,13 +377,13 @@ module.exports = (app) => {
         });
         const mailOptions = {
           to: user.email,
-          from: 'hackathon@starter.com',
-          subject: 'Your Hackathon Starter password has been changed',
-          text: `Hello,\n\nThis is a confirmation that the password for your account ${user.email} has just been changed.\n`
+          from: 'ventas@cleansuit.co',
+          subject: 'Su contraseña ha sido cambiada',
+          text: `Hola,\n\nEsta es una confirmación de que la contraseña de su cuenta ${user.email} ha sido cambiada.\n`
         };
         transporter.sendMail(mailOptions, (err) => {
           req.flash('success', {
-            msg: 'Success! Your password has been changed.'
+            msg: 'Listo! Su contraseña ha sido restablecida.'
           });
           done(err);
         });
@@ -402,7 +414,7 @@ module.exports = (app) => {
    * Create a random token, then the send user an email with a reset link.
    */
   router.post('/forgot', (req, res, next) => {
-    req.assert('email', 'Please enter a valid email address.').isEmail();
+    req.assert('email', 'Por favor proporcione un correo electrónico válido.').isEmail();
     req.sanitize('email').normalizeEmail({
       remove_dots: false
     });
@@ -430,7 +442,7 @@ module.exports = (app) => {
           }
           if (!user) {
             req.flash('errors', {
-              msg: 'Account with that email address does not exist.'
+              msg: 'No existe una cuenta con ese correo electrónico.'
             });
             return res.redirect('/forgot');
           }
@@ -451,16 +463,16 @@ module.exports = (app) => {
         });
         const mailOptions = {
           to: user.email,
-          from: 'hackathon@starter.com',
-          subject: 'Reset your password on Hackathon Starter',
-          text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
-            Please click on the following link, or paste this into your browser to complete the process:\n\n
+          from: 'ventas@cleansuit.co',
+          subject: 'Reestablecer Contraseña Cleansuit.co',
+          text: `Usted está recibiendo este correo porque se ha solicitado el restablecimiento de la contraseña de su cuenta.\n\n
+            Por favor, siga el siguiente enlace o péguelo en su navegador para completar el proceso:\n\n
             http://${req.headers.host}/reset/${token}\n\n
-            If you did not request this, please ignore this email and your password will remain unchanged.\n`
+            Si usted no hizo esta solicitud, por favor ignore este correo y su contraseña permanecerá igual.\n`
         };
         transporter.sendMail(mailOptions, (err) => {
           req.flash('info', {
-            msg: `An e-mail has been sent to ${user.email} with further instructions.`
+            msg: `Un correo con instrucciones ha sido enviado al correo ${user.email}.`
           });
           done(err);
         });

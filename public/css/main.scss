@@ -1,9 +1,9 @@
-@import "themes/flatly/variables";
+// @import "themes/gsdk/variables";
 
 @import "lib/bootstrap/bootstrap";
 @import "lib/font-awesome/font-awesome";
 
-@import "themes/flatly/flatly";
+@import "themes/gsdk/gsdk";
 
 // Scaffolding
 // -------------------------
@@ -14,6 +14,7 @@ html {
 }
 
 body {
+  position: static;
   padding-top: 60px;
   margin-bottom: 75px;
 }
@@ -40,6 +41,20 @@ textarea {
 // Navbar
 // -------------------------
 
+.navbar-header {
+  float: none;
+}
+.navbar .navbar-brand {
+  float: none;
+  text-align: center;
+  display: block;
+  padding: 0;
+  margin: -1px 0 0 0;
+}
+.navbar-brand > img {
+  height: 45px;
+  display: inline;
+}
 .navbar-nav img {
   max-width: 30px;
   max-height: 30px;

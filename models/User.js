@@ -8,7 +8,7 @@ module.exports = (app) => {
   const jwt = require('jwt-simple');
   require('mongoose-type-email');
 
-  const ROLES = ['superadmin', 'gerente', 'admin_sede', 'trabajador', 'recepcionista', 'domiciliario', 'cliente'];
+  const ROLES = ['superadmin', 'gerente', 'admin_sede', 'recepcionista', 'trabajador', 'domiciliario', 'cliente'];
 
   const userSchema = new mongoose.Schema({
     nombre: String,

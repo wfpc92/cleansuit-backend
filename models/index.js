@@ -12,6 +12,18 @@ module.exports = (app) => {
   const Services = require('./Services')(app)
   const Subservices = require('./Subservices')(app)
 
+  // update the roles
+  const updateRoles = function(req, res, next) {
+    const user = res.locals.bundle;
+    const uid = `${user._id}`;
+    app.locals.acl.userRoles(uid, function(err, roles) {
+      console.log('userRoles', err, roles)
+      if (roles) app.locals.acl.removeUserRoles(uid, roles, function(err) {})
+      app.locals.acl.addUserRoles(uid, user.rol, function(err) {})
+    });
+    next();
+  }
+
   /**
    * RESTful routes.
    */
@@ -40,5 +52,7 @@ module.exports = (app) => {
   Settings.register(app, '/rest/settings')
 
   User.methods(['get', 'post', 'put', 'delete'])
+  User.after('post', updateRoles);
+  User.after('put', updateRoles);
   User.register(app, '/rest/usuarios')
 }

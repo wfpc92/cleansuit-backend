@@ -7,7 +7,7 @@ module.exports = (app) => {
    * POST /upload/:path
    * Centralized File Upload API.
    */
-  router.post('/upload/:path', app.locals.uploader.any(), (req, res) => {
+  router.post('/upload/:path', app.locals.auth.isAuthenticated, app.locals.uploader.any(), (req, res) => {
     res.json({
       'uploaded_url': req.files[0].path.replace('../cleansuit/public', 'http://api.cleansuit.co')
     })

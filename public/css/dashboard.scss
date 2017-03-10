@@ -9,6 +9,12 @@
 .navbar-brand > img {
   margin: -15px 10px;
 }
+.navbar-right {
+  margin-top: 12px;
+}
+.navbar-right > .navbar-btn {
+  margin: 0;
+}
 .navbar-right > li > a {
   padding: 20px !important;
 }

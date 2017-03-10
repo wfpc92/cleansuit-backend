@@ -62,9 +62,45 @@ function runapp() {
   /**
    * ACL configuration.
    */
-  acl = new acl(new acl.mongodbBackend(mongoose.connection, {
-    debug: (msg) => console.log('  ACL debug: ', msg)
-  }));
+  acl = new acl(new acl.mongodbBackend(mongoose.connection.db, 'acl_'));
+
+  /**
+   * Roles setup.
+   */
+  acl.allow([
+    {
+      roles: 'superadmin',
+      allows: [
+        { resources: '*', permissions: '*' }
+      ]
+    },
+    {
+      roles: 'admin_sede',
+      allows: []
+    },
+    {
+      roles: 'recepcionista',
+      allows: []
+    },
+    {
+      roles: 'trabajador',
+      allows: []
+    },
+    {
+      roles: 'domiciliario',
+      allows: []
+    },
+    {
+      roles: 'cliente',
+      allows: []
+    },
+    {
+      roles: 'guest',
+      allows: []
+    }
+  ]);
+  acl.addRoleParents('superadmin', 'admin_sede');
+  acl.addRoleParents('cliente', 'guest');
 
   /**
    * Assign app local vars.
@@ -162,52 +198,6 @@ function runapp() {
    * Error Handler.
    */
   app.use(errorHandler());
-
-  /**
-   * Roles setup.
-   */
-  acl.allow([{
-      roles: 'superadmin',
-      allows: [
-        // { resources: '*', permissions: '*' }
-      ]
-    },
-    {
-      roles: 'gerente',
-      allows: []
-    },
-    {
-      roles: 'admin_sede',
-      allows: []
-    },
-    {
-      roles: 'recepcionista',
-      allows: []
-    },
-    {
-      roles: 'trabajador',
-      allows: []
-    },
-    {
-      roles: 'recepcionista',
-      allows: []
-    },
-    {
-      roles: 'domiciliario',
-      allows: []
-    },
-    {
-      roles: 'cliente',
-      allows: []
-    },
-    {
-      roles: 'guest',
-      allows: []
-    }
-  ]);
-  acl.addRoleParents('superadmin', 'gerente');
-  acl.addRoleParents('gerente', 'admin_sede');
-  // acl.addRoleParents('cliente', 'guest');
 
   /**
    * Start Express server.

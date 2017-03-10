@@ -1,15 +1,16 @@
 extends ../layout
 
 block content
-  .col-sm-8.col-sm-offset-2
+  .col-sm-8.col-sm-offset-2.col-md-6.col-md-offset-3
+    .page-header
+      h3 Contraseña Olvidada
     form(method='POST')
-      legend Contraseña Olvidada
       input(type='hidden', name='_csrf', value=_csrf)
       .form-group
         p Proporcione su correo electrónico a continuación y le enviaremos instrucciones para restaurar su contraseña.
         label.control-label(for='email') Correo
         input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus, required)
       .form-group
-        button.btn.btn-primary(type='submit')
+        button.btn.btn-default(type='submit')
           i.fa.fa-key
           | Restablecer Contraseña
