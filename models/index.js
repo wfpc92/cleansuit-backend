@@ -1,6 +1,9 @@
 'use strict';
 
 module.exports = (app) => {
+  const bcrypt = require('bcrypt-nodejs');
+  const mongoose = require('mongoose');
+
   const VersionApp = require('./VersionApp')(app)
   const User = require('./User')(app)
   const Settings = require('./Settings')(app)
@@ -12,17 +15,41 @@ module.exports = (app) => {
   const Services = require('./Services')(app)
   const Subservices = require('./Subservices')(app)
 
-  // update the roles
+  // roles updater
   const updateRoles = function(req, res, next) {
     const user = res.locals.bundle;
     const uid = `${user._id}`;
     app.locals.acl.userRoles(uid, function(err, roles) {
-      console.log('userRoles', err, roles)
       if (roles) app.locals.acl.removeUserRoles(uid, roles, function(err) {})
       app.locals.acl.addUserRoles(uid, user.rol, function(err) {})
     });
     next();
   }
+
+  // password hash middleware.
+  const hashPassword = function(req, res, next) {
+    mongoose.model('Usuarios').findOne({ correo: req.body.correo }, function (err, user) {
+      var isNew = !user,
+          isModified = (user && user.contrasena != req.body.contrasena);
+      if (isModified && typeof req.body.contrasena != 'undefined' || isNew) {
+        bcrypt.genSalt(10, (err, salt) => {
+          if (err) {
+            return next(err);
+          }
+          bcrypt.hash(req.body.contrasena, salt, null, (err, hash) => {
+            if (err) {
+              return next(err);
+            }
+            req.body.contrasena = hash;
+            next();
+          });
+        });
+      } else {
+        next();
+      }
+    });
+  }
+
 
   /**
    * RESTful routes.
@@ -52,6 +79,8 @@ module.exports = (app) => {
   Settings.register(app, '/rest/settings')
 
   User.methods(['get', 'post', 'put', 'delete'])
+  User.before('post', hashPassword);
+  User.before('put', hashPassword);
   User.after('post', updateRoles);
   User.after('put', updateRoles);
   User.register(app, '/rest/usuarios')

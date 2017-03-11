@@ -42,29 +42,6 @@ module.exports = (app) => {
   });
 
   /**
-   * Password hash middleware.
-   */
-  userSchema.pre('save', function(next) {
-    const user = this;
-    if (typeof user.contrasena != 'undefined' && (this.isModified('contrasena') || this.isNew)) {
-      bcrypt.genSalt(10, (err, salt) => {
-        if (err) {
-          return next(err);
-        }
-        bcrypt.hash(user.contrasena, salt, null, (err, hash) => {
-          if (err) {
-            return next(err);
-          }
-          user.contrasena = hash;
-          next();
-        });
-      });
-    } else {
-      return next();
-    }
-  });
-
-  /**
    * Helper method for validating user's password.
    */
   userSchema.methods.comparePassword = function(candidatePassword, cb) {
