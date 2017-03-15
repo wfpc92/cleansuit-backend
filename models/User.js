@@ -88,5 +88,26 @@ module.exports = (app) => {
   userSchema.statics.ROLES = ROLES;
   const User = restful.model('Usuarios', userSchema);
 
+  User.route('count', {
+    detail: false,
+    handler: function (req, res, next) {
+      let query = {},
+          param = '';
+      for (let p in req.query) {
+        if (p.indexOf('__') !== -1) {
+          param = p.split('__');
+          query[param[0]] = {};
+          query[param[0]][`\$${param[1]}`] = req.query[p];
+        } else {
+          query[p] = req.query[p];
+        }
+      }
+
+      User.count(query, function(err, c) {
+        return res.json({ count: c });
+      });
+    }
+  });
+
   return User;
 };

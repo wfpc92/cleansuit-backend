@@ -170,16 +170,31 @@ module.exports = (app) => {
     detail: true,
     handler: function (req, res, next) {
       Orders.findOne({ _id: req.params.id }, 'codigo', function(err, order) {
-        res.download(`public/facturas/${ order._id }.pdf`, `Factura_${ order.codigo }.pdf`, function(err) {
-          if (err) {
-            // Handle error, but keep in mind the response may be partially-sent
-            // so check res.headersSent
-          } else {
-          }
-        });
+        res.download(`public/facturas/${ order._id }.pdf`, `Factura_${ order.codigo }.pdf`, function(err) {});
       })
     }
-  })
+  });
+
+  Orders.route('count', {
+    detail: false,
+    handler: function (req, res, next) {
+      let query = {},
+          param = '';
+      for (let p in req.query) {
+        if (p.indexOf('__') !== -1) {
+          param = p.split('__');
+          query[param[0]] = {};
+          query[param[0]][`\$${param[1]}`] = req.query[p];
+        } else {
+          query[p] = req.query[p];
+        }
+      }
+
+      Orders.count(query, function(err, c) {
+        return res.json({ count: c });
+      });
+    }
+  });
 
   return Orders;
 };
