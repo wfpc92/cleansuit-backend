@@ -195,10 +195,10 @@ module.exports = (app) => {
   //     if (err) {
   //       return next(err);
   //     }
-  //     user.email = req.body.email || '';
-  //     user.profile.name = req.body.name || '';
+  //     user.correo = req.body.email || '';
+  //     user.nombre = req.body.name || '';
   //     user.profile.gender = req.body.gender || '';
-  //     user.profile.location = req.body.location || '';
+  //     user.profile.direccion = req.body.location || '';
   //     user.profile.website = req.body.website || '';
   //     user.save((err) => {
   //       if (err) {
@@ -354,7 +354,7 @@ module.exports = (app) => {
               });
               return res.redirect('back');
             }
-            user.password = req.body.password;
+            user.contrasena = req.body.password;
             user.pass_token = undefined;
             user.pass_token_vence = undefined;
             user.save((err) => {
@@ -376,10 +376,10 @@ module.exports = (app) => {
           }
         });
         const mailOptions = {
-          to: user.email,
+          to: user.correo,
           from: 'ventas@cleansuit.co',
           subject: 'Su contraseña ha sido cambiada',
-          text: `Hola,\n\nEsta es una confirmación de que la contraseña de su cuenta ${user.email} ha sido cambiada.\n`
+          text: `Hola,\n\nEsta es una confirmación de que la contraseña de su cuenta ${user.correo} ha sido cambiada.\n`
         };
         transporter.sendMail(mailOptions, (err) => {
           req.flash('success', {
@@ -435,7 +435,7 @@ module.exports = (app) => {
       },
       function setRandomToken(token, done) {
         User.findOne({
-          email: req.body.email
+          correo: req.body.email
         }, (err, user) => {
           if (err) {
             return done(err);
@@ -462,7 +462,7 @@ module.exports = (app) => {
           }
         });
         const mailOptions = {
-          to: user.email,
+          to: user.correo,
           from: 'ventas@cleansuit.co',
           subject: 'Reestablecer Contraseña Cleansuit.co',
           text: `Usted está recibiendo este correo porque se ha solicitado el restablecimiento de la contraseña de su cuenta.\n\n
@@ -472,7 +472,7 @@ module.exports = (app) => {
         };
         transporter.sendMail(mailOptions, (err) => {
           req.flash('info', {
-            msg: `Un correo con instrucciones ha sido enviado al correo ${user.email}.`
+            msg: `Un correo con instrucciones ha sido enviado al correo ${user.correo}.`
           });
           done(err);
         });
