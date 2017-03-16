@@ -84,6 +84,10 @@ basket .grid {
 }
 
 // customized
+.ng-admin-type-date,
+.ng-admin-type-datetime {
+  letter-spacing: -0.05em;
+}
 // list
 td.ng-admin-column-url_imagen {
   text-align: center;
