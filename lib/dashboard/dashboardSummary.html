@@ -53,10 +53,7 @@
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge">
-                          {{ stats.ordenes.pending_orders }}
-                          <small ng-if="stats.pending">
-                            / {{ stats.pending }}
-                          </small>
+                          {{ stats.ordenes.pending_orders }}<small ng-if="stats.pending">/ {{ stats.pending }}</small>
                         </div>
                         <div>Pendientes</div>
                     </div>
@@ -80,10 +77,7 @@
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge">
-                          {{ stats.customers.recent }}
-                          <small ng-if="stats.customers.total">
-                            / {{ stats.customers.total }}
-                          </small>
+                          {{ stats.customers.recent }}<small ng-if="stats.customers.total">/ {{ stats.customers.total }}</small>
                         </div>
                         <div>Nuevos Clientes</div>
                     </div>
