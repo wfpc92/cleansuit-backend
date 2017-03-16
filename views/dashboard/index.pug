@@ -8,7 +8,7 @@ html
     link(rel='shortcut icon', href='/favicon.png')
     link(rel='stylesheet', href='/dist/main.css')
 
-  body(ng-app='dashCleanSuit')
+  body(ng-app='dashCleanSuit', ng-strict-di)
     div(ui-view='ng-admin')
 
     //- script(src='/ng-admin/ng-admin.min.js')
