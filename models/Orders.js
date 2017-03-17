@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = (app) => {
-  const fs = require('fs');
+  // const fs = require('fs');
   const pdf = require('html-pdf');
   const moment = require('moment');
   const numeral = require('numeral');
@@ -12,6 +12,8 @@ module.exports = (app) => {
   const Facturas = mongoose.model('Facturas');
   const Usuarios = mongoose.model('Usuarios');
   const Settings = mongoose.model('Configuraciones');
+  const Productos = mongoose.model('Productos');
+  const Subservicios = mongoose.model('Subservicios');
 
   const ESTADOS = [
     'nueva', //0
@@ -119,8 +121,6 @@ module.exports = (app) => {
                   numeral: numeral,
                 }
                 app.render('invoice.html', params, function(err, html) {
-                  // console.log(ord)
-                  // console.log(err)
                   var options = { format: 'Letter' };
                   pdf.create(html, options).toFile(`public/facturas/${ ord._id }.pdf`, function(err, res) {
                     if (err) return console.log(err);
@@ -133,6 +133,58 @@ module.exports = (app) => {
                 })
               })
             });
+          }
+
+          var saveInvoice = function(ord, inv) {
+            Productos.find({}).sort({'createdAt': 1}).exec(function (err, prods) {
+              if (err) return console.log(err);
+              Subservicios.find({}).sort({'createdAt': 1}).exec(function (err, servs) {
+                if (err) return console.log(err);
+
+                // format the items for Excel
+                let i, v, productos = {}, servicios = {};
+                prods.forEach(function(pr) {
+                  productos[pr._id] = {
+                    nombre: pr.nombre,
+                    count: 0
+                  };
+                });
+                servs.forEach(function(sv) {
+                  servicios[sv._id] = {
+                    nombre: sv.nombre,
+                    count: 0
+                  };
+                });
+                if (ord.recoleccion.items.productos) {
+                  for (i in ord.recoleccion.items.productos) {
+                    v = ord.recoleccion.items.productos[i];
+                    productos[v._id]['count'] += v.cantidad;
+                  }
+                }
+                if (ord.recoleccion.items.prendas) {
+                  for (i in ord.recoleccion.items.prendas) {
+                    v = ord.recoleccion.items.prendas[i];
+                    servicios[v.subservicio._id]['count'] += 1;
+                  }
+                }
+                inv.productos = "";
+                for (i in productos) {
+                  v = productos[i];
+                  inv.productos += `${v.count};${v.nombre};`;
+                }
+                inv.prendas = "";
+                for (i in servicios) {
+                  v = servicios[i];
+                  inv.prendas += `${v.count};${v.nombre};`;
+                }
+                // save the invoice
+                inv.save(function(err, invoice) {
+                  if (err) return console.log(err);
+
+                  genInvoice(ord, invoice);
+                });
+              })
+            })
           }
 
           if (!invoice) {
@@ -148,14 +200,13 @@ module.exports = (app) => {
               iva: order.orden.totales.impuestos,
               total: order.orden.totales.total
             });
-            invoice.save();
-            invoice.updatedAt = new Date();
-            genInvoice(order, invoice);
           } else if (invoice.total != order.orden.totales.total) {
+            invoice.descuento = order.orden.totales.descuento;
+            invoice.domicilio = order.orden.totales.domicilio;
+            invoice.iva = order.orden.totales.impuestos;
             invoice.total = order.orden.totales.total;
-            invoice.save();
-            genInvoice(order, invoice);
           }
+          saveInvoice(order, invoice);
         })
       }
     })

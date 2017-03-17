@@ -13,6 +13,8 @@ module.exports = (app) => {
     desc_larga: String,
     url_imagen: String,
     stock: Number,
+  }, {
+    timestamps: true
   });
 
   productsSchema.post('save', function(next) {

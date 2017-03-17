@@ -8,12 +8,12 @@ module.exports = (app) => {
   const User = require('./User')(app)
   const Settings = require('./Settings')(app)
   const Facturas = require('./Invoices')(app)
-  const Orders = require('./Orders')(app)
   const Products = require('./Products')(app)
   const ProduMoves = require('./ProduMoves')(app)
   const Promos = require('./Promos')(app)
   const Services = require('./Services')(app)
   const Subservices = require('./Subservices')(app)
+  const Orders = require('./Orders')(app)
 
   // roles updater
   const updateRoles = function(req, res, next) {

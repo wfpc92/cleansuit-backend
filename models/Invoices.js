@@ -27,7 +27,9 @@ module.exports = (app) => {
     domicilio: Number,
     iva: Number,
     total: Number,
-    // TODO estado
+    productos: String,
+    prendas: String,
+    // TODO estado?
   }, {
     timestamps: true
   });

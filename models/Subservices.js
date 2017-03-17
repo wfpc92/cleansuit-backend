@@ -15,6 +15,8 @@ module.exports = (app) => {
     descripcion: String,
     precio: Number,
     detalles: String
+  }, {
+    timestamps: true
   });
 
   subservicesSchema.post('save', function(next) {
