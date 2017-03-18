@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = (app) => {
-  // const fs = require('fs');
+  const fs = require('fs');
   const pdf = require('html-pdf');
   const moment = require('moment');
   const numeral = require('numeral');
@@ -126,10 +126,10 @@ module.exports = (app) => {
                     if (err) return console.log(err);
                     // console.log(res); // { filename: '/app/businesscard.pdf' }
                   });
-                  // fs.writeFile(`public/facturas/${ ord._id }.html`, html, function(err) {
-                  //   if (err) return console.log(err);
-                  //   console.log("INVOICE SAVED!");
-                  // });
+                  fs.writeFile(`public/facturas/${ ord._id }.html`, html, function(err) {
+                    if (err) return console.log(err);
+                    // console.log("INVOICE SAVED!");
+                  });
                 })
               })
             });
@@ -195,18 +195,19 @@ module.exports = (app) => {
               domiciliario_entrega_id: order.domiciliario_entrega_id,
               servicioDirecto: order.orden.servicioDirecto,
               formaPago: order.orden.formaPago,
-              descuento: order.orden.totales.descuento,
-              domicilio: order.orden.totales.domicilio,
-              iva: order.orden.totales.impuestos,
+              descuento: order.orden.totales.descuento ? order.orden.totales.descuento : 0,
+              domicilio: order.orden.totales.domicilio ? order.orden.totales.domicilio : 0,
+              iva: order.orden.totales.impuestos ? order.orden.totales.impuestos : 0,
               total: order.orden.totales.total
             });
+            saveInvoice(order, invoice);
           } else if (invoice.total != order.orden.totales.total) {
-            invoice.descuento = order.orden.totales.descuento;
-            invoice.domicilio = order.orden.totales.domicilio;
-            invoice.iva = order.orden.totales.impuestos;
+            invoice.descuento = order.orden.totales.descuento ? order.orden.totales.descuento : 0;
+            invoice.domicilio = order.orden.totales.domicilio ? order.orden.totales.domicilio : 0;
+            invoice.iva = order.orden.totales.impuestos ? order.orden.totales.impuestos : 0;
             invoice.total = order.orden.totales.total;
+            saveInvoice(order, invoice);
           }
-          saveInvoice(order, invoice);
         })
       }
     })
