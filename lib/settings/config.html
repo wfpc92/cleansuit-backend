@@ -25,7 +25,11 @@
               formController.fields[8],
               formController.fields[9],
               formController.fields[10],
-              formController.fields[11]
+              formController.fields[11],
+              formController.fields[12],
+              formController.fields[13],
+              formController.fields[14],
+              formController.fields[15]
             ] track by $index"
             compile="::field.getTemplateValueWithLabel(entry)">
               <ma-field field="::field" value="entry.values[field.name()]" entry="entry" entity="::entity" form="formController.form" datastore="::formController.dataStore"></ma-field>

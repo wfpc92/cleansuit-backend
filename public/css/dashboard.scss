@@ -101,3 +101,10 @@ textarea#desc_corta {
 .ui-select-match .btn-xs {
   font-size: 10pt;
 }
+
+textarea[name="factura.dian"],
+textarea[name="factura.dianFecha"],
+textarea[name="factura.dianHabilita"],
+textarea[name="factura.dianMsg"] {
+  height: 75px;
+}
