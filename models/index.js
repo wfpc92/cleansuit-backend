@@ -15,6 +15,15 @@ module.exports = (app) => {
   const Subservices = require('./Subservices')(app)
   const Orders = require('./Orders')(app)
 
+  // const updatePromos = function(req, res, next) {
+  //   if (res.locals.bundle instanceof Array) {
+  //     res.locals.bundle.forEach((promo, i) => {
+  //       res.locals.bundle[i].etiquetar();
+  //     })
+  //   }
+  //   next();
+  // }
+
   // roles updater
   const updateRoles = function(req, res, next) {
     const user = res.locals.bundle;
@@ -67,6 +76,7 @@ module.exports = (app) => {
   ProduMoves.register(app, '/rest/produmoves')
 
   Promos.methods(['get', 'post', 'put', 'delete'])
+  // Promos.after('get', updatePromos);
   Promos.register(app, '/rest/promociones')
 
   Services.methods(['get', 'post', 'put', 'delete'])

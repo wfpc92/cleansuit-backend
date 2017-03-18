@@ -39,24 +39,30 @@ module.exports = (app) => {
   };
 
   promosSchema.methods.etiquetar = function() {
-    var arr = [], etiqueta, cadena;
+    var i, arr = [], etiqueta, cadena;
 
-    for (var i in this.items) {
-      if (this.items &&
-        arr.indexOf(this.items[i].descuento) == -1 &&
-        this.items[i].descuento) {
-        arr.push(parseInt(this.items[i].descuento));
+    for (i in this.productos) {
+      if (this.productos &&
+        this.productos[i].descuento &&
+        arr.indexOf(this.productos[i].descuento) == -1) {
+        arr.push(parseInt(this.productos[i].descuento));
       }
     }
 
-    arr = arr.sort(function(a, b) {
-      return a - b
-    });
+    for (i in this.servicios) {
+      if (this.servicios &&
+        this.servicios[i].descuento &&
+        arr.indexOf(this.servicios[i].descuento) == -1) {
+        arr.push(parseInt(this.servicios[i].descuento));
+      }
+    }
+
+    arr = arr.sort(function(a, b) { return a - b; });
 
     if (arr.length === 0) {
-      etiqueta = "Descuento del " + this.descuento + "%";
+      etiqueta = "";
     } else if (arr.length == 1) {
-      etiqueta = "Descuento del " + arr[0] + "%";
+      etiqueta = `Descuento del ${arr[0]}%`;
     } else {
       cadena = "";
       for (i in arr) {
@@ -65,13 +71,12 @@ module.exports = (app) => {
           cadena += ", ";
         }
         if (i == arr.length - 2) {
-          cadena += " y "
+          cadena += " y ";
         }
       }
-
       etiqueta = `Descuentos del ${cadena}%`;
     }
-    // console.log(etiqueta)
+
     this.etiquetaDescuentos = etiqueta;
   };
 
