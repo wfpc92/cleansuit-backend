@@ -98,16 +98,16 @@ module.exports = (app) => {
     ESTADOS[6], //cancelada
   ];
 
-  // update the invoice while it's not delivered
-  ordersSchema.post('findOneAndUpdate', function(order) {
-    mongoose.model('Ordenes').findOne({ _id: order._id }, function(err, order) {
-      if (order.estado == 'rutaEntrega') {
+  ordersSchema.methods.invoice = function(next) {
+    next = next && typeof next === "function" ? next : null;
+
+    mongoose.model('Ordenes').findOne({ _id: this._id }, function(err, order) {
+      if (['rutaEntrega', 'entregada'].indexOf(order.estado) !== -1) {
         Facturas.findOne({ orden_id: order._id }, function(err, invoice) {
-          // console.log(err, invoice)
           if (err) return;
 
           var genInvoice = function(ord, inv) {
-            Settings.findOne({}, {}, { sort: { 'updatedAt' : -1 } }, function(err, config) {
+            Settings.findOne({}, {}, { sort: {'updatedAt': -1} }, function(err, config) {
               // console.log( err, config );
               Usuarios.findOne({ _id: ord.cliente_id }, function(err, cliente) {
                 var params = {
@@ -123,13 +123,15 @@ module.exports = (app) => {
                 app.render('invoice.html', params, function(err, html) {
                   var options = { format: 'Letter' };
                   pdf.create(html, options).toFile(`public/facturas/${ ord._id }.pdf`, function(err, res) {
-                    if (err) return console.log(err);
+                    if (err) return console.error(err);
+
+                    return next ? next() : true;
                     // console.log(res); // { filename: '/app/businesscard.pdf' }
                   });
-                  fs.writeFile(`public/facturas/${ ord._id }.html`, html, function(err) {
-                    if (err) return console.log(err);
-                    // console.log("INVOICE SAVED!");
-                  });
+                  // fs.writeFile(`public/facturas/${ ord._id }.html`, html, function(err) {
+                  //   if (err) return console.error(err);
+                  //   // console.log("INVOICE SAVED!");
+                  // });
                 })
               })
             });
@@ -137,9 +139,9 @@ module.exports = (app) => {
 
           var saveInvoice = function(ord, inv) {
             Productos.find({}).sort({'createdAt': 1}).exec(function (err, prods) {
-              if (err) return console.log(err);
+              if (err) return console.error(err);
               Subservicios.find({}).sort({'createdAt': 1}).exec(function (err, servs) {
-                if (err) return console.log(err);
+                if (err) return console.error(err);
 
                 // format the items for Excel
                 let i, v, productos = {}, servicios = {};
@@ -179,7 +181,7 @@ module.exports = (app) => {
                 }
                 // save the invoice
                 inv.save(function(err, invoice) {
-                  if (err) return console.log(err);
+                  if (err) return console.error(err);
 
                   genInvoice(ord, invoice);
                 });
@@ -207,10 +209,25 @@ module.exports = (app) => {
             invoice.iva = order.orden.totales.impuestos ? order.orden.totales.impuestos : 0;
             invoice.total = order.orden.totales.total;
             saveInvoice(order, invoice);
+          } else {
+            fs.stat(`public/facturas/${ order._id }.pdf`, function(err, stat) {
+              if (!err) {
+                return next ? next() : true;
+              } else {
+                saveInvoice(order, invoice);
+              }
+            });
           }
         })
+      } else {
+        console.error('Estado inválido para facturar: ' + order.estado);
       }
     })
+  };
+
+  // update the invoice while it's not delivered
+  ordersSchema.post('findOneAndUpdate', function(order) {
+    order.invoice();
   });
 
   /**
@@ -222,7 +239,16 @@ module.exports = (app) => {
     detail: true,
     handler: function (req, res, next) {
       Orders.findOne({ _id: req.params.id }, 'codigo', function(err, order) {
-        res.download(`public/facturas/${ order._id }.pdf`, `Factura_${ order.codigo }.pdf`, function(err) {});
+        let filename = `public/facturas/${ order._id }.pdf`;
+        fs.stat(filename, function(err, stat) {
+          if (!err) {
+            res.download(filename, `Factura_${ order.codigo }.pdf`);
+          } else {
+            order.invoice(function() {
+              res.download(filename, `Factura_${ order.codigo }.pdf`);
+            });
+          }
+        });
       })
     }
   });
