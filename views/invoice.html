@@ -100,11 +100,6 @@
     body .float-right {
       float: right;
     }
-    body .helper {
-      display: inline-block;
-      height: 100%;
-      vertical-align: middle;
-    }
     body .no-break {
       page-break-inside: avoid;
     }
@@ -266,11 +261,6 @@
       border-top: 1px solid #555;
       margin: 55px 10% 0;
     }
-    footer .end {
-      padding-top: 5px;
-      border-top: 2px solid #8BC34A;
-      text-align: center;
-    }
   </style>
 </head>
 
@@ -351,16 +341,16 @@
           <tr>
             <td class="desc"><%= order.recoleccion.items.productos[i].nombre %></td>
             <td class="qty"><%= order.recoleccion.items.productos[i].cantidad %></td>
-            <td class="unit"><%= numeral(order.recoleccion.items.productos[i].precio).format('$0,0.') %></td>
-            <td class="total"><%= numeral(order.recoleccion.items.productos[i].cantidad * order.recoleccion.items.productos[i].precio).format('$0,0.') %></td>
+            <td class="unit"><%= numeral(order.recoleccion.items.productos[i].precio * 0.84).format('$0,0.') %></td>
+            <td class="total"><%= numeral(order.recoleccion.items.productos[i].cantidad * order.recoleccion.items.productos[i].precio * 0.84).format('$0,0.') %></td>
           </tr>
           <% } %>
           <% for (i in order.recoleccion.items.prendas) { %>
           <tr>
             <td class="desc"><%= order.recoleccion.items.prendas[i].subservicio.nombre %></td>
             <td class="qty">1</td>
-            <td class="unit"><%= numeral(order.recoleccion.items.prendas[i].subservicio.precio).format('$0,0.') %></td>
-            <td class="total"><%= numeral(order.recoleccion.items.prendas[i].subservicio.precio).format('$0,0.') %></td>
+            <td class="unit"><%= numeral(order.recoleccion.items.prendas[i].subservicio.precio * 0.84).format('$0,0.') %></td>
+            <td class="total"><%= numeral(order.recoleccion.items.prendas[i].subservicio.precio * 0.84).format('$0,0.') %></td>
           </tr>
           <% } %>
         </tbody>
@@ -372,11 +362,11 @@
               <td class="desc"><small class="float-left">OBSERVACIONES:</small></td>
               <td class="qty"></td>
               <td class="unit">Subtotal</td>
-              <td class="total"><%= numeral(order.orden.totales.subtotal).format('$0,0.') %></td>
+              <td class="total"><%= numeral(order.orden.totales.subtotal * 0.84).format('$0,0.') %></td>
             </tr>
             <tr>
               <td class="desc"></td>
-              <td class="unit" colspan="2">IVA incluído (19%)</td>
+              <td class="unit" colspan="2">IVA</td>
               <td class="total"><%= numeral(order.orden.totales.impuestos).format('$0,0.') %></td>
             </tr>
             <tr>
