@@ -73,7 +73,7 @@
       font-family: 'Source Sans Pro', sans-serif;
       font-weight: 300;
       font-size: 12px;
-      margin: 20px 0 15px;
+      margin: 10px 0 10px;
       padding: 0;
     }
     body a {
@@ -106,7 +106,7 @@
 
     header table {
       color: #555;
-      margin: 10px 0;
+      margin-top: 4px;
       width: 100%;
     }
     header table:first-child {
@@ -114,33 +114,40 @@
     }
     header td.text-center img {
       display: block;
-      height: 25px;
-      margin: 0 7px 5px;
+      height: 20px;
+      margin: 0 10px 5px;
     }
     header td:first-child img {
       margin-bottom: 0;
-      height: 40px;
+      height: 28px;
+      margin-bottom: 3px;
     }
     header td.text-center b {
       font-size: 16px;
     }
     header table.info {
       background-color: #ccc;
+      line-height: 1.2em;
+      font-size: 70%;
     }
     header table.info td {
-      padding: 10px;
+      padding: 2px 5px;
     }
-    header table.info td:first-child {
-      width: 40%;
+    header table.info td:last-child {
+      width: 50%;
     }
 
     section .details {
-      margin-top: 2px;
-      margin-bottom: 15px;
+      margin-top: 1px;
+      margin-bottom: 4px;
+    }
+    section .details span {
+      font-size: 80%;
+      line-height: 1.1em;
     }
     section .details .client {
       width: 50%;
-      line-height: 15px;
+      line-height: 12px;
     }
     section .details .client .name {
       color: #444;
@@ -151,7 +158,7 @@
       text-align: right;
     }
     section .details .title {
-      margin-bottom: 10px;
+      margin: 1px 0;
       color: #444;
       font-size: 2em;
       font-weight: 400;
@@ -176,7 +183,7 @@
       border-bottom: 2px solid #fff;
     }
     section table thead th {
-      padding: 3px 5px;
+      padding: 2px 5px;
       background: #777;
       border-right: 1px solid #fff;
       text-align: right;
@@ -195,7 +202,7 @@
       text-align: center;
     }
     section table tbody td {
-      padding: 4px 5px;
+      padding: 2px 5px;
       background: #eee;
       color: #777;
       text-align: right;
@@ -212,8 +219,8 @@
       text-align: center;
     }
     section table.grand-total {
-      font-size: 80%;
-      margin-bottom: 20px;
+      font-size: 75%;
+      margin-bottom: 5px;
     }
     section table.grand-total small {
       font-size: 7px;
@@ -221,7 +228,7 @@
       font-weight: bold;
     }
     section table.grand-total td {
-      padding: 2px 5px;
+      padding: 1px 5px;
       border: none;
       color: #777777;
       text-align: right;
@@ -232,23 +239,24 @@
     section table.grand-total tr:last-child td {
       font-weight: 600;
       color: #000;
-      font-size: 1.1em;
+      font-size: 1.15em;
+      padding-top: 2px;
     }
 
     footer {
-      font-size: 80%;
+      font-size: 75%;
       text-align: center;
     }
     footer .account {
       background-color: #ccc;
-      padding: 4px 0;
+      padding: 2px 0;
     }
     footer .account b {
       color: #444;
     }
     footer .note {
-      font-size: 90%;
-      padding: 3px;
+      font-size: 70%;
+      padding: 2px;
     }
     footer table {
       width: 100%;
@@ -258,8 +266,10 @@
       width: 33%;
     }
     footer table p {
+      /* formas */
       border-top: 1px solid #555;
-      margin: 55px 10% 0;
+      font-size: 90%;
+      margin: 22px 10% 0;
     }
   </style>
 </head>
@@ -291,15 +301,16 @@
           <td>
             <%= config.empresa.nombre %><br />
             NIT: <%= config.empresa.nit %><br />
+            <%= config.empresa.regimenTributario %>
+          </td>
+          <td>
             <%= config.empresa.direccion %><br />
             Tel: <%= config.empresa.telefono %><br />
             <%= config.empresa.ciudad %>
           </td>
           <td>
-            <%= config.empresa.regimenTributario %><br />
             <%= config.factura.dian %><br />
-            <%= config.factura.dianFecha %><br />
-            <%= config.factura.dianHabilita %><br />
+            <%= config.factura.dianDetalle %><br />
             <%= config.factura.dianMsg %>
           </td>
         </tr>
@@ -314,15 +325,19 @@
           <small>Facturado a:</small>
           <p>
              <b class="name"><%= cliente.nombre %></b><br />
-             <%= order.orden.entrega.direccion %></br />
-             <%= order.orden.telefono %>
+             <span>
+               <%= order.orden.entrega.direccion %><br />
+               <%= order.orden.telefono %>
+             </span>
           </p>
         </div>
         <div class="data float-right">
           <div class="title">Factura <%= config.factura.prefijo %><%= order.codigo.toString() %></div>
           <div class="date">
-            Fecha: <%= moment(invoice.updatedAt).format('DD-MM-YYYY') %><br />
-            Orden de Venta #<%= order.codigo.toString() %>
+            <span>
+              Fecha: <b><%= moment(invoice.updatedAt).format('DD-MM-YYYY') %></b><br />
+              Orden de Venta #<%= order.codigo.toString() %>
+            </span>
           </div>
         </div>
       </div>
