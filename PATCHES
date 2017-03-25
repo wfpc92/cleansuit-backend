@@ -21,3 +21,22 @@ replace:
 sm-10 / sm-2
 with:
 sm-9 / sm-3
+
+
+node_modules/ng-admin/lib/javascripts/ng-admin/
+
+search and remove: "col-md-8 col-lg-7"
+
+
+node_modules/ng-admin/lib/javascripts/ng-admin/Main/component/directive/maDashboardPanel.js
+
+Add parameter: entryCssClasses: '&?'
+And use it: \n    entry-css-classes="entryCssClasses()"
+
+
+node_modules/ng-admin/lib/javascripts/ng-admin/Main/component/controller/DashboardController.js
+
+insert in constructor:
+this.entryCssClasses = function(entry) {
+  return entry.noleido === true ? 'needaction' : '';
+};

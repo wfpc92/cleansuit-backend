@@ -58,7 +58,11 @@ module.exports = (app) => {
     cancelacion: {},
     servicioDirecto: {
       type: Boolean
-    }
+    },
+    noleido:  {
+      type: Boolean,
+      default: true
+    },
   });
 
   ordersSchema.plugin(autoIncrement.plugin, {

@@ -24,6 +24,18 @@ module.exports = (app) => {
   //   next();
   // }
 
+  // visto updater
+  const updateVisto = function(req, res, next) {
+    if (req.params.id) {
+      const record = res.locals.bundle;
+      if (record.noleido) {
+        record.noleido = false;
+        record.save();
+      }
+    }
+    next();
+  }
+
   // roles updater
   const updateRoles = function(req, res, next) {
     const user = res.locals.bundle;
@@ -67,6 +79,7 @@ module.exports = (app) => {
   Facturas.register(app, '/rest/facturas')
 
   Orders.methods(['get', 'post', 'put', 'delete'])
+  Orders.after('get', updateVisto);
   Orders.register(app, '/rest/ordenes')
 
   Products.methods(['get', 'post', 'put', 'delete'])
