@@ -21,7 +21,19 @@ module.exports = (app) => {
     })
   });
 
+  servicesSchema.post('update', function(next) {
+    VersionApp.singleton(function(v) {
+      v.inventario += 1;
+    })
+  });
+
   servicesSchema.post('findOneAndUpdate', function(next) {
+    VersionApp.singleton(function(v) {
+      v.inventario += 1;
+    })
+  });
+
+  servicesSchema.post('findOneAndRemove', function(next) {
     VersionApp.singleton(function(v) {
       v.inventario += 1;
     })

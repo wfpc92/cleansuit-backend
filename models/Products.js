@@ -23,7 +23,19 @@ module.exports = (app) => {
     })
   });
 
+  productsSchema.post('update', function(next) {
+    VersionApp.singleton(function(v) {
+      v.inventario += 1;
+    })
+  });
+
   productsSchema.post('findOneAndUpdate', function(next) {
+    VersionApp.singleton(function(v) {
+      v.inventario += 1;
+    })
+  });
+
+  productsSchema.post('findOneAndRemove', function(next) {
     VersionApp.singleton(function(v) {
       v.inventario += 1;
     })

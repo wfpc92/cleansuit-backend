@@ -4,6 +4,8 @@ module.exports = (app) => {
   const mongoose = require('mongoose');
   const restful = require('node-restful');
 
+  const VersionApp = mongoose.model('VersionApp')
+
   const promosSchema = new mongoose.Schema({
     codigo: {
       type: String,
@@ -30,6 +32,30 @@ module.exports = (app) => {
     // referencias a los productos y subservicios a los se aplica la promocion.
     productos: [],
     servicios: [],
+  });
+
+  promosSchema.post('save', function(next) {
+    VersionApp.singleton(function(v) {
+      v.inventario += 1;
+    })
+  });
+
+  promosSchema.post('update', function(next) {
+    VersionApp.singleton(function(v) {
+      v.inventario += 1;
+    })
+  });
+
+  promosSchema.post('findOneAndUpdate', function(next) {
+    VersionApp.singleton(function(v) {
+      v.inventario += 1;
+    })
+  });
+
+  promosSchema.post('findOneAndRemove', function(next) {
+    VersionApp.singleton(function(v) {
+      v.inventario += 1;
+    })
   });
 
   promosSchema.methods.vigente = function() {
