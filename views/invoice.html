@@ -2,7 +2,6 @@
 <html>
 <head>
   <title>Factura <%= order.codigo.toString() %></title>
-  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
   <!-- <link rel="stylesheet" href="sass/main.css" media="screen" charset="utf-8"/> -->
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta http-equiv="content-type" content="text-html; charset=utf-8">
@@ -70,10 +69,10 @@
     }
 
     body {
-      font-family: 'Source Sans Pro', sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       font-weight: 300;
       font-size: 12px;
-      margin: 10px 0 10px;
+      margin: 20px 0 10px;
       padding: 0;
     }
     body a {
@@ -123,7 +122,8 @@
       margin-bottom: 3px;
     }
     header td.text-center b {
-      font-size: 16px;
+      font-size: 15px;
+      letter-spacing: -0.015em;
     }
     header table.info {
       background-color: #ccc;
@@ -131,15 +131,15 @@
       font-size: 70%;
     }
     header table.info td {
-      padding: 2px 5px;
+      padding: 5px 7px;
     }
     header table.info td:last-child {
       width: 50%;
     }
 
     section .details {
-      margin-top: 1px;
-      margin-bottom: 4px;
+      margin-top: 7px;
+      margin-bottom: 10px;
     }
     section .details span {
       font-size: 80%;
@@ -181,6 +181,7 @@
       vertical-align: middle;
       border-color: inherit;
       border-bottom: 2px solid #fff;
+      font-size: 0.9em;
     }
     section table thead th {
       padding: 2px 5px;
@@ -220,10 +221,10 @@
     }
     section table.grand-total {
       font-size: 75%;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
     }
     section table.grand-total small {
-      font-size: 7px;
+      font-size: 8px;
       float: left;
       font-weight: bold;
     }
@@ -249,27 +250,14 @@
     }
     footer .account {
       background-color: #ccc;
-      padding: 2px 0;
+      padding: 3px 0 2px;
     }
     footer .account b {
       color: #444;
     }
     footer .note {
-      font-size: 70%;
+      font-size: 75%;
       padding: 2px;
-    }
-    footer table {
-      width: 100%;
-    }
-    footer table td {
-      text-align: center;
-      width: 33%;
-    }
-    footer table p {
-      /* formas */
-      border-top: 1px solid #555;
-      font-size: 90%;
-      margin: 22px 10% 0;
     }
   </style>
 </head>
@@ -413,18 +401,6 @@
       <div class="note">
         <%- config.factura.note %>
       </div>
-      <table class="signs">
-        <tr>
-          <td><p>Representante de CLEANSUIT</p></td>
-          <td><p>Firma de CLEANSUIT</p></td>
-          <td><p>Fecha de la Firma</p></td>
-        </tr>
-        <tr>
-          <td><p>Representante de EL CLIENTE</p></td>
-          <td><p>Firma de EL CLIENTE</p></td>
-          <td><p>Fecha de la Firma</p></td>
-        </tr>
-      </table>
     </div>
   </footer>
 
