@@ -19,13 +19,13 @@
 
           <div ng-repeat="field in [
             formController.fields[1],
-            formController.fields[8].editable(entry.values.estado == 'nueva'),
-            formController.fields[11].editable(entry.values.estado == 'nueva')
+            formController.fields[6].editable(entry.values.estado == 'nueva'),
+            formController.fields[9].editable(entry.values.estado == 'nueva')
           ] track by $index"
           compile="::field.getTemplateValueWithLabel(entry)">
             <!-- 1: Cliente -->
-            <!-- 8: Teléfono -->
-            <!-- 11: Cupon -->
+            <!-- 6: Teléfono -->
+            <!-- 9: Cupon -->
             <ma-field field="::field" value="entry.values[field.name()]" entry="entry" entity="::entity" form="formController.form" datastore="::formController.dataStore"></ma-field>
           </div>
 
@@ -36,13 +36,13 @@
 
           <div ng-repeat="field in [
             formController.fields[0],
-            formController.fields[9].editable(entry.values.estado == 'nueva'),
-            formController.fields[10].editable(entry.values.estado == 'nueva')
+            formController.fields[7].editable(entry.values.estado == 'nueva'),
+            formController.fields[8].editable(entry.values.estado == 'nueva')
           ] track by $index"
           compile="::field.getTemplateValueWithLabel(entry)">
             <!-- 0: Fecha -->
-            <!-- 9: Forma de Pago -->
-            <!-- 10: Servicio Directo -->
+            <!-- 7: Forma de Pago -->
+            <!-- 8: Servicio Directo -->
             <ma-field field="::field" value="entry.values[field.name()]" entry="entry" entity="::entity" form="formController.form" datastore="::formController.dataStore"></ma-field>
           </div>
 
@@ -60,14 +60,12 @@
             <div ng-repeat="field in [
               formController.fields[2].editable(['nueva', 'rutaRecoleccion'].indexOf(entry.values.estado) != -1),
               formController.fields[3].editable(['nueva', 'rutaRecoleccion'].indexOf(entry.values.estado) != -1),
-              formController.fields[4].editable(['nueva', 'rutaRecoleccion'].indexOf(entry.values.estado) != -1),
-              formController.fields[12].editable(['nueva', 'rutaRecoleccion'].indexOf(entry.values.estado) != -1)
+              formController.fields[10].editable(['nueva', 'rutaRecoleccion'].indexOf(entry.values.estado) != -1)
             ] track by $index"
             compile="::field.getTemplateValueWithLabel(entry)">
               <!-- 2: Dirección -->
               <!-- 3: Fecha -->
-              <!-- 4: Hora -->
-              <!-- 12: Domiciliario Recoleccion -->
+              <!-- 10: Domiciliario Recoleccion -->
               <ma-field field="::field" value="entry.values[field.name()]" entry="entry" entity="::entity" form="formController.form" datastore="::formController.dataStore"></ma-field>
             </div>
 
@@ -82,16 +80,14 @@
             <legend>Entrega</legend>
 
             <div ng-repeat="field in [
+              formController.fields[4].editable(['nueva', 'rutaRecoleccion', 'procesando', 'rutaEntrega'].indexOf(entry.values.estado) != -1),
               formController.fields[5].editable(['nueva', 'rutaRecoleccion', 'procesando', 'rutaEntrega'].indexOf(entry.values.estado) != -1),
-              formController.fields[6].editable(['nueva', 'rutaRecoleccion', 'procesando', 'rutaEntrega'].indexOf(entry.values.estado) != -1),
-              formController.fields[7].editable(['nueva', 'rutaRecoleccion', 'procesando', 'rutaEntrega'].indexOf(entry.values.estado) != -1),
-              formController.fields[13].editable(['procesando', 'rutaEntrega'].indexOf(entry.values.estado) != -1)
+              formController.fields[11].editable(['procesando', 'rutaEntrega'].indexOf(entry.values.estado) != -1)
             ] track by $index"
             compile="::field.getTemplateValueWithLabel(entry)">
               <!-- 5: Dirección -->
               <!-- 6: Fecha -->
-              <!-- 7: Hora -->
-              <!-- 13: Domiciliario Entrega -->
+              <!-- 11: Domiciliario Entrega -->
               <ma-field field="::field" value="entry.values[field.name()]" entry="entry" entity="::entity" form="formController.form" datastore="::formController.dataStore"></ma-field>
             </div>
 
@@ -109,12 +105,12 @@
             <legend>Items</legend>
 
           <div ng-repeat="field in [
-            formController.fields[14],
-            formController.fields[15]
+            formController.fields[13],
+            formController.fields[12]
           ] track by $index"
           compile="::field.getTemplateValueWithLabel(entry)">
-            <!-- 14: Recoleccion -->
-            <!-- 15: Items -->
+            <!-- 13: Recoleccion -->
+            <!-- 12: Items -->
             <ma-field field="::field" value="entry.values[field.name()]" entry="entry" entity="::entity" form="formController.form" datastore="::formController.dataStore"></ma-field>
           </div>
 
