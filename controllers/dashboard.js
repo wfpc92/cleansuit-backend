@@ -7,7 +7,7 @@ module.exports = (app) => {
    * GET /panel
    * User dashboard page.
    */
-  router.get('/', app.locals.auth.isAuthenticated, /*app.locals.acl.middleware(),*/ (req, res) => {
+  router.get('/', app.locals.auth.isAuthenticated, app.locals.acl.middleware(), (req, res) => {
     res.render('dashboard/index', {
       title: 'Panel'
     });
