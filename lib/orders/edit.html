@@ -19,11 +19,13 @@
 
           <div ng-repeat="field in [
             formController.fields[1],
+            formController.fields[15].editable(['entregada', 'cancelada'].indexOf(entry.values.estado) == -1),
             formController.fields[6].editable(entry.values.estado == 'nueva'),
             formController.fields[9].editable(entry.values.estado == 'nueva')
           ] track by $index"
           compile="::field.getTemplateValueWithLabel(entry)">
             <!-- 1: Cliente -->
+            <!-- 15: NIT / CC -->
             <!-- 6: Teléfono -->
             <!-- 9: Cupon -->
             <ma-field field="::field" value="entry.values[field.name()]" entry="entry" entity="::entity" form="formController.form" datastore="::formController.dataStore"></ma-field>

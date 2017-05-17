@@ -314,6 +314,13 @@
           <p>
              <b class="name"><%= cliente.nombre %></b><br />
              <span>
+               <%if (order.orden.docid) { %>
+                 <%if (order.orden.docid.indexOf('-') !== -1) { %>
+                   N.I.T. <%= order.orden.docid %><br />
+                 <% } else { %>
+                   C.C. <%= order.orden.docid %><br />
+                 <% } %>
+               <% } %>
                <%= order.orden.entrega.direccion %><br />
                <%= order.orden.telefono %>
              </span>
