@@ -5,6 +5,7 @@ module.exports = (app) => {
   const mongoose = require('mongoose');
 
   const VersionApp = require('./VersionApp')(app)
+  const VersionOrders = require('./VersionOrders')(app)
   const User = require('./User')(app)
   const Settings = require('./Settings')(app)
   const Facturas = require('./Invoices')(app)

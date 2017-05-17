@@ -2,7 +2,6 @@
 
 module.exports = (app) => {
   const mongoose = require('mongoose');
-  const restful = require('node-restful');
 
   var VersionAppSchema = new mongoose.Schema({
     inventario: {
@@ -38,7 +37,7 @@ module.exports = (app) => {
     });
   };
 
-  const VersionApp = restful.model('VersionApp', VersionAppSchema);
+  const VersionApp = mongoose.model('VersionApp', VersionAppSchema);
 
   return VersionApp;
 };

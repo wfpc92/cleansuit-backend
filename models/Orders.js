@@ -14,6 +14,7 @@ module.exports = (app) => {
   const Settings = mongoose.model('Configuraciones');
   const Productos = mongoose.model('Productos');
   const Subservicios = mongoose.model('Subservicios');
+  const VersionesOrdenes = mongoose.model('VersionesOrdenes');
 
   const ESTADOS = [
     'nueva', //0
@@ -231,6 +232,7 @@ module.exports = (app) => {
 
   // update the invoice while it's not delivered
   ordersSchema.post('findOneAndUpdate', function(order) {
+    VersionesOrdenes.actualizar(orden.cliente_id);
     order.invoice();
   });
 
