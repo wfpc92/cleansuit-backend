@@ -314,11 +314,11 @@
           <p>
              <b class="name"><%= cliente.nombre %></b><br />
              <span>
-               <%if (order.orden.docid) { %>
-                 <%if (order.orden.docid.indexOf('-') !== -1) { %>
-                   N.I.T. <%= order.orden.docid %><br />
+               <%if (order.orden.docId) { %>
+                 <%if (order.orden.docId.indexOf('-') !== -1) { %>
+                   N.I.T. <%= order.orden.docId %><br />
                  <% } else { %>
-                   C.C. <%= order.orden.docid %><br />
+                   C.C. <%= order.orden.docId %><br />
                  <% } %>
                <% } %>
                <%= order.orden.entrega.direccion %><br />
