@@ -232,7 +232,7 @@ module.exports = (app) => {
 
   // update the invoice while it's not delivered
   ordersSchema.post('findOneAndUpdate', function(order) {
-    VersionesOrdenes.actualizar(orden.cliente_id);
+    VersionesOrdenes.actualizar(order.cliente_id);
     order.invoice();
   });
 
